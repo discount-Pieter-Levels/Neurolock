@@ -1,0 +1,14 @@
+{
+  "author": "NeuroLock",
+  "category": "identity",
+  "dependencies": [],
+  "description": "NeuroLock station demo: recorded vein + EEG samples through the real pipeline",
+  "display_name": "NeuroLock",
+  "icon": "icon.png",
+  "main": {},
+  "manifestVersion": "0.3.0",
+  "name": "neurolock_demo",
+  "type": "ui_qml",
+  "version": "0.2.0",
+  "view": "Main.qml"
+}

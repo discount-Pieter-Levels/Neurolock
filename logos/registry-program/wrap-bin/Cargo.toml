@@ -1,0 +1,13 @@
+[package]
+name = "wrap_bin"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Wraps a guest ELF built in the risc0 container into the deployable .bin
+# (user ELF + v1compat kernel), exactly as risc0-build 3.0.5 does on the host.
+[dependencies]
+risc0-binfmt = { version = "=3.0.4", default-features = false, features = ["std"] }
+risc0-zkos-v1compat = "=2.2.2"
+
+[workspace]

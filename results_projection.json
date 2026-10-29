@@ -1,0 +1,141 @@
+{
+ "eer": {
+  "vec_cos": 0.03686714237172953,
+  "vec_euc": 0.17423709205054771,
+  "bits1": 0.05485979645001052,
+  "bits2": 0.04608392796466191,
+  "median_bits": 0.20056469750659353
+ },
+ "lock": {
+  "bits1_r3": {
+   "GAR": 0.027522935779816515,
+   "FAR": 0.0,
+   "key_bits": 28,
+   "n_impostor": 2268
+  },
+  "bits1_r5": {
+   "GAR": 0.22935779816513763,
+   "FAR": 0.0004409171075837742,
+   "key_bits": 17,
+   "n_impostor": 2268
+  },
+  "bits1_r7": {
+   "GAR": 0.3761467889908257,
+   "FAR": 0.0008818342151675485,
+   "key_bits": 12,
+   "n_impostor": 2268
+  },
+  "bits1_r9": {
+   "GAR": 0.5229357798165137,
+   "FAR": 0.0026455026455026454,
+   "key_bits": 9,
+   "n_impostor": 2268
+  },
+  "bits1_r11": {
+   "GAR": 0.6788990825688074,
+   "FAR": 0.012786596119929453,
+   "key_bits": 7,
+   "n_impostor": 2268
+  },
+  "bits2_r3": {
+   "GAR": 0.0,
+   "FAR": 0.0,
+   "key_bits": 57,
+   "n_impostor": 2268
+  },
+  "bits2_r5": {
+   "GAR": 0.03669724770642202,
+   "FAR": 0.0004409171075837742,
+   "key_bits": 34,
+   "n_impostor": 2268
+  },
+  "bits2_r7": {
+   "GAR": 0.07339449541284404,
+   "FAR": 0.0,
+   "key_bits": 24,
+   "n_impostor": 2268
+  },
+  "bits2_r9": {
+   "GAR": 0.1926605504587156,
+   "FAR": 0.0004409171075837742,
+   "key_bits": 19,
+   "n_impostor": 2268
+  },
+  "bits2_r11": {
+   "GAR": 0.24770642201834864,
+   "FAR": 0.0013227513227513227,
+   "key_bits": 15,
+   "n_impostor": 2268
+  },
+  "median_bits_r3": {
+   "GAR": 0.05504587155963303,
+   "FAR": 0.005731922398589065,
+   "key_bits": 85,
+   "n_impostor": 2268
+  },
+  "median_bits_r5": {
+   "GAR": 0.22935779816513763,
+   "FAR": 0.016313932980599646,
+   "key_bits": 51,
+   "n_impostor": 2268
+  },
+  "median_bits_r7": {
+   "GAR": 0.3669724770642202,
+   "FAR": 0.03262786596119929,
+   "key_bits": 36,
+   "n_impostor": 2268
+  },
+  "median_bits_r9": {
+   "GAR": 0.46788990825688076,
+   "FAR": 0.05202821869488536,
+   "key_bits": 28,
+   "n_impostor": 2268
+  },
+  "median_bits_r11": {
+   "GAR": 0.5045871559633027,
+   "FAR": 0.06613756613756613,
+   "key_bits": 23,
+   "n_impostor": 2268
+  }
+ },
+ "pca_var_top5": [
+  0.42,
+  0.214,
+  0.082,
+  0.07,
+  0.032
+ ],
+ "pca_dims_for_90pct": 11,
+ "pca_clustering": {
+  "2": {
+   "silhouette_by_person": -0.3172006287914279,
+   "kmeans_ARI": 0.032099896263371376,
+   "nearest_centroid_id_acc": 0.11009174311926606
+  },
+  "5": {
+   "silhouette_by_person": -0.16292924046111396,
+   "kmeans_ARI": 0.08938611567296327,
+   "nearest_centroid_id_acc": 0.28440366972477066
+  },
+  "10": {
+   "silhouette_by_person": -0.09091008276108979,
+   "kmeans_ARI": 0.1118155909886127,
+   "nearest_centroid_id_acc": 0.3944954128440367
+  },
+  "20": {
+   "silhouette_by_person": -0.048305919421607925,
+   "kmeans_ARI": 0.1517056292718618,
+   "nearest_centroid_id_acc": 0.45871559633027525
+  },
+  "50": {
+   "silhouette_by_person": -0.02150331896456073,
+   "kmeans_ARI": 0.1612744848153895,
+   "nearest_centroid_id_acc": 0.5321100917431193
+  },
+  "100": {
+   "silhouette_by_person": -0.014230663691978259,
+   "kmeans_ARI": 0.17820150708411966,
+   "nearest_centroid_id_acc": 0.5412844036697247
+  }
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "thr": {
+  "baseline: images 1-3": 7.4140424728393555,
+  "any 3 images, no quality (upper bound of luck)": 7.9373626708984375,
+  "quality: drop broken, 3 closest in brightness": 7.486385345458984
+ },
+ "tune": {
+  "baseline: images 1-3": {
+   "finger_EER": 0.03683464885650678,
+   "person_EER_2fingers": 0.0,
+   "finger_FRR_at_tune_FMR1e-3": 0.06147540983606557,
+   "finger_FMR_test": 0.0009950752209404304
+  },
+  "any 3 images, no quality (upper bound of luck)": {
+   "finger_EER": 0.03309890035755245,
+   "person_EER_2fingers": 0.0,
+   "finger_FRR_at_tune_FMR1e-3": 0.04918032786885246,
+   "finger_FMR_test": 0.0009950752209404304
+  },
+  "quality: drop broken, 3 closest in brightness": {
+   "finger_EER": 0.03272785535991365,
+   "person_EER_2fingers": 0.0001366120218579235,
+   "finger_FRR_at_tune_FMR1e-3": 0.04918032786885246,
+   "finger_FMR_test": 0.0009950752209404304
+  }
+ },
+ "test": {
+  "baseline: images 1-3": {
+   "finger_EER": 0.015067911714770798,
+   "person_EER_2fingers": 0.001983077736647277,
+   "finger_FRR_at_tune_FMR1e-3": 0.04032258064516129,
+   "finger_FMR_test": 0.0006366723259762309
+  },
+  "any 3 images, no quality (upper bound of luck)": {
+   "finger_EER": 0.015990270340864567,
+   "person_EER_2fingers": 0.00026441036488630354,
+   "finger_FRR_at_tune_FMR1e-3": 0.036290322580645164,
+   "finger_FMR_test": 0.000571372600235079
+  },
+  "quality: drop broken, 3 closest in brightness": {
+   "finger_EER": 0.016129032258064516,
+   "person_EER_2fingers": 0.0,
+   "finger_FRR_at_tune_FMR1e-3": 0.04838709677419355,
+   "finger_FMR_test": 0.000571372600235079
+  }
+ }
+}

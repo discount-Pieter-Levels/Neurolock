@@ -1,0 +1,25 @@
+# Python / build output
+__pycache__/
+*.pyc
+target/
+logos/registry-program/wrap-bin/target/
+
+# Large feature caches (regenerate with the scripts)
+*.npz
+*.pkl
+
+# Logs and local config
+*.log
+logos_config.toml
+logos_build/wallet-ffi
+logos_build/walkthrough_local/
+
+# FV-USM-derived images (database licence: research use, no redistribution).
+# Regenerate from your own FV-USM copy; see README.
+demo_web/data.js
+logos/basecamp/neurolock-demo/img/
+results_vein*/vein_examples_*.png
+results_vein*/diag_worst_fingers.png
+
+# Old demo copies
+demo_web/index_v1_backup.html

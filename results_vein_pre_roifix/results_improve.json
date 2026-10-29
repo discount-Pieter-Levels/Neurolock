@@ -1,0 +1,184 @@
+{
+ "A gabor": {
+  "test_EER": 0.08397136607026251,
+  "tune_EER": 0.07543316692527378,
+  "test_FAR_at_tune_thr": 0.05912890165861304,
+  "test_FRR_at_tune_thr": 0.09543010752688172
+ },
+ "B gabor": {
+  "test_EER": 0.04634784075573549,
+  "tune_EER": 0.05395050484607254,
+  "test_FAR_at_tune_thr": 0.043756257890383524,
+  "test_FRR_at_tune_thr": 0.04704301075268817
+ },
+ "A maxcurv": {
+  "test_EER": 0.09745575943581036,
+  "tune_EER": 0.08734877105399266,
+  "test_FAR_at_tune_thr": 0.07859366157328807,
+  "test_FRR_at_tune_thr": 0.10349462365591398
+ },
+ "B maxcurv": {
+  "test_EER": 0.04502416089852423,
+  "tune_EER": 0.05668836717713463,
+  "test_FAR_at_tune_thr": 0.052087414566192154,
+  "test_FRR_at_tune_thr": 0.043682795698924734
+ },
+ "C fusion (B)": {
+  "test_EER": 0.033656566975752034,
+  "tune_EER": 0.05111566484517305,
+  "test_FAR_at_tune_thr": 0.041848961734360715,
+  "test_FRR_at_tune_thr": 0.03293010752688172
+ },
+ "D_aggregate_chosen_on_tune": "max",
+ "D multi-probe 3 imgs (max)": {
+  "test_EER": 0.01841044142614601,
+  "tune_EER": 0.03480655063077649,
+  "test_FAR_at_tune_thr": 0.027980932480083584,
+  "test_FRR_at_tune_thr": 0.016129032258064516
+ },
+ "E_reject_fraction_chosen_on_tune": 0.1,
+ "E_test_retake_rate": 0.08870967741935484,
+ "E quality retake (rej 10%)": {
+  "test_EER": 0.016071894998041007,
+  "tune_EER": 0.03685151453821764,
+  "test_FAR_at_tune_thr": 0.029172652474859607,
+  "test_FRR_at_tune_thr": 0.012096774193548387
+ },
+ "impostor_same_person_other_finger_mean_z": 0.9872136116027832,
+ "impostor_stranger_mean_z": 0.5198929309844971,
+ "impostor_cross_slot_corr_mean": 0.08167734581676882,
+ "F 1 finger(s), person level": {
+  "test_EER": 0.03225806451612903,
+  "tune_EER": 0.06557377049180328,
+  "test_FAR_at_tune_thr": 0.04627181385510312,
+  "test_FRR_at_tune_thr": 0.03225806451612903
+ },
+ "F 2 finger(s), person level": {
+  "test_EER": 0.00803146483342147,
+  "tune_EER": 0.004098360655737705,
+  "test_FAR_at_tune_thr": 0.0025780010576414597,
+  "test_FRR_at_tune_thr": 0.012096774193548387
+ },
+ "F 4 finger(s), person level": {
+  "test_EER": 0.0,
+  "tune_EER": 0.0,
+  "test_FAR_at_tune_thr": 0.0,
+  "test_FRR_at_tune_thr": 0.016129032258064516
+ },
+ "dedup_by_fingers": {
+  "1": [
+   {
+    "tune_FMR_target": 0.001,
+    "test_FMR_virtual": 0.00052725,
+    "test_FMR_real_pairs": 0.0005288207297726071,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 0.9516129032258065,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 18.96633475580844
+   },
+   {
+    "tune_FMR_target": 0.0001,
+    "test_FMR_virtual": 0.0,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 0.9354838709677419,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 40000.0
+   },
+   {
+    "tune_FMR_target": 1e-05,
+    "test_FMR_virtual": 0.0,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 0.9354838709677419,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 40000.0
+   },
+   {
+    "tune_FMR_target": 1e-06,
+    "test_FMR_virtual": 0.0,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 0.9354838709677419,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 40000.0
+   }
+  ],
+  "2": [
+   {
+    "tune_FMR_target": 0.001,
+    "test_FMR_virtual": 0.0004815625,
+    "test_FMR_real_pairs": 0.001255949233209942,
+    "real_impostor_pairs": 15128,
+    "catch_rate_test": 0.9879032258064516,
+    "genuine_test": 248,
+    "N_people_for_1pct_false_dup": 20.765736534717718
+   },
+   {
+    "tune_FMR_target": 0.0001,
+    "test_FMR_virtual": 2.55e-05,
+    "test_FMR_real_pairs": 6.610259122157589e-05,
+    "real_impostor_pairs": 15128,
+    "catch_rate_test": 0.9838709677419355,
+    "genuine_test": 248,
+    "N_people_for_1pct_false_dup": 392.15686274509807
+   },
+   {
+    "tune_FMR_target": 1e-05,
+    "test_FMR_virtual": 6.875e-07,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 15128,
+    "catch_rate_test": 0.9717741935483871,
+    "genuine_test": 248,
+    "N_people_for_1pct_false_dup": 14545.454545454546
+   },
+   {
+    "tune_FMR_target": 1e-06,
+    "test_FMR_virtual": 1.25e-07,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 15128,
+    "catch_rate_test": 0.9516129032258065,
+    "genuine_test": 248,
+    "N_people_for_1pct_false_dup": 80000.0
+   }
+  ],
+  "4": [
+   {
+    "tune_FMR_target": 0.001,
+    "test_FMR_virtual": 0.000448,
+    "test_FMR_real_pairs": 0.0013220518244315177,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 1.0,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 22.321428571428573
+   },
+   {
+    "tune_FMR_target": 0.0001,
+    "test_FMR_virtual": 3.025e-05,
+    "test_FMR_real_pairs": 0.00026441036488630354,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 1.0,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 330.57851239669424
+   },
+   {
+    "tune_FMR_target": 1e-05,
+    "test_FMR_virtual": 1.75e-06,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 1.0,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 5714.285714285715
+   },
+   {
+    "tune_FMR_target": 1e-06,
+    "test_FMR_virtual": 5e-07,
+    "test_FMR_real_pairs": 0.0,
+    "real_impostor_pairs": 3782,
+    "catch_rate_test": 1.0,
+    "genuine_test": 62,
+    "N_people_for_1pct_false_dup": 20000.0
+   }
+  ]
+ }
+}

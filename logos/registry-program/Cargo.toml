@@ -1,0 +1,16 @@
+[package]
+name = "neurolock_registry"
+version = "0.1.0"
+edition = "2024"
+
+# A risc0 guest: built with build.sh (Docker) or build.sh --local (rzup toolchain), never plain `cargo build`.
+# `cargo test` runs the rule tests natively.
+[dependencies]
+borsh = { version = "1", features = ["derive"] }
+# Pinned to the LEZ commit the v0.3 testnet runs (same pin as the Logos tutorials).
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "411adc8fdb3f4c3af64354c4fc26d3e4a6a3d3f4" }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"] }
+
+[profile.release]
+lto = true
+opt-level = 3

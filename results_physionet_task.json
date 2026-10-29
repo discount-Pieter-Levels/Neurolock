@@ -1,0 +1,11 @@
+{
+  "dataset": "physionet",
+  "subjects": 109,
+  "bits": 105,
+  "r": 7,
+  "key_bits": 15,
+  "genuine_accept_rate": 0.7155963302752294,
+  "false_accept_rate": 0.12512742099898064,
+  "mean_bit_error_genuine": 0.09541284403669725,
+  "mean_bit_error_impostor": 0.4977476821513519
+}

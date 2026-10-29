@@ -1,0 +1,11 @@
+{
+  "dataset": "synthetic",
+  "subjects": 40,
+  "bits": 105,
+  "r": 7,
+  "key_bits": 15,
+  "genuine_accept_rate": 1.0,
+  "false_accept_rate": 0.0,
+  "mean_bit_error_genuine": 0.02619047619047619,
+  "mean_bit_error_impostor": 0.5075335775335775
+}

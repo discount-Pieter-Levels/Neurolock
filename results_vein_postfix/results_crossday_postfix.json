@@ -1,0 +1,413 @@
+{
+ "n_people": 60,
+ "conditions": {
+  "S1_same_recording": {
+   "bit_error_rate_genuine_mean": 0.13900709219858157,
+   "eer": {
+    "vec_cos": 0.016666666666666666,
+    "bits1": 0.017424242424242425,
+    "bits2": 0.017424242424242425
+   },
+   "lock": {
+    "bits1|rep_r3": {
+     "GAR": 0.55,
+     "FAR": 0.0,
+     "key_bits": 15,
+     "n_imp": 660
+    },
+    "bits1|rep_r5": {
+     "GAR": 0.7833333333333333,
+     "FAR": 0.004545454545454545,
+     "key_bits": 9,
+     "n_imp": 660
+    },
+    "bits1|rep_r7": {
+     "GAR": 0.95,
+     "FAR": 0.022727272727272728,
+     "key_bits": 6,
+     "n_imp": 660
+    },
+    "bits1|bch31_t2": {
+     "GAR": 0.18333333333333332,
+     "FAR": 0.0,
+     "key_bits": 27,
+     "n_imp": 660
+    },
+    "bits1|bch31_t3": {
+     "GAR": 0.36666666666666664,
+     "FAR": 0.0,
+     "key_bits": 17,
+     "n_imp": 660
+    },
+    "bits1|bch31_t4": {
+     "GAR": 0.5166666666666667,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch31_t5": {
+     "GAR": 0.7,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch63_t5": {
+     "GAR": 0.36666666666666664,
+     "FAR": 0.0,
+     "key_bits": 20,
+     "n_imp": 660
+    },
+    "bits1|bch63_t7": {
+     "GAR": 0.6333333333333333,
+     "FAR": 0.0,
+     "key_bits": 8,
+     "n_imp": 660
+    },
+    "bits1|bch63_t10": {
+     "GAR": 0.9333333333333333,
+     "FAR": 0.0,
+     "key_bits": 2,
+     "n_imp": 660
+    },
+    "bits2|rep_r3": {
+     "GAR": 0.18333333333333332,
+     "FAR": 0.0,
+     "key_bits": 31,
+     "n_imp": 660
+    },
+    "bits2|rep_r5": {
+     "GAR": 0.6333333333333333,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|rep_r7": {
+     "GAR": 0.8666666666666667,
+     "FAR": 0.0030303030303030303,
+     "key_bits": 13,
+     "n_imp": 660
+    },
+    "bits2|bch31_t2": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 63,
+     "n_imp": 660
+    },
+    "bits2|bch31_t3": {
+     "GAR": 0.1,
+     "FAR": 0.0,
+     "key_bits": 48,
+     "n_imp": 660
+    },
+    "bits2|bch31_t4": {
+     "GAR": 0.16666666666666666,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch31_t5": {
+     "GAR": 0.3,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch63_t5": {
+     "GAR": 0.08333333333333333,
+     "FAR": 0.0,
+     "key_bits": 40,
+     "n_imp": 660
+    },
+    "bits2|bch63_t7": {
+     "GAR": 0.21666666666666667,
+     "FAR": 0.0,
+     "key_bits": 24,
+     "n_imp": 660
+    },
+    "bits2|bch63_t10": {
+     "GAR": 0.6333333333333333,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|bch63_t11": {
+     "GAR": 0.7,
+     "FAR": 0.0,
+     "key_bits": 16,
+     "n_imp": 660
+    }
+   }
+  },
+  "S2_90min": {
+   "bit_error_rate_genuine_mean": 0.2797872340425532,
+   "eer": {
+    "vec_cos": 0.06666666666666667,
+    "bits1": 0.11969696969696969,
+    "bits2": 0.1303030303030303
+   },
+   "lock": {
+    "bits1|rep_r3": {
+     "GAR": 0.05,
+     "FAR": 0.0,
+     "key_bits": 15,
+     "n_imp": 660
+    },
+    "bits1|rep_r5": {
+     "GAR": 0.18333333333333332,
+     "FAR": 0.0,
+     "key_bits": 9,
+     "n_imp": 660
+    },
+    "bits1|rep_r7": {
+     "GAR": 0.4,
+     "FAR": 0.030303030303030304,
+     "key_bits": 6,
+     "n_imp": 660
+    },
+    "bits1|bch31_t2": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 27,
+     "n_imp": 660
+    },
+    "bits1|bch31_t3": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 17,
+     "n_imp": 660
+    },
+    "bits1|bch31_t4": {
+     "GAR": 0.11666666666666667,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch31_t5": {
+     "GAR": 0.25,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch63_t5": {
+     "GAR": 0.03333333333333333,
+     "FAR": 0.0,
+     "key_bits": 20,
+     "n_imp": 660
+    },
+    "bits1|bch63_t7": {
+     "GAR": 0.06666666666666667,
+     "FAR": 0.0,
+     "key_bits": 8,
+     "n_imp": 660
+    },
+    "bits1|bch63_t10": {
+     "GAR": 0.3,
+     "FAR": 0.0,
+     "key_bits": 2,
+     "n_imp": 660
+    },
+    "bits2|rep_r3": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 31,
+     "n_imp": 660
+    },
+    "bits2|rep_r5": {
+     "GAR": 0.11666666666666667,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|rep_r7": {
+     "GAR": 0.25,
+     "FAR": 0.0,
+     "key_bits": 13,
+     "n_imp": 660
+    },
+    "bits2|bch31_t2": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 63,
+     "n_imp": 660
+    },
+    "bits2|bch31_t3": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 48,
+     "n_imp": 660
+    },
+    "bits2|bch31_t4": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch31_t5": {
+     "GAR": 0.03333333333333333,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch63_t5": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 40,
+     "n_imp": 660
+    },
+    "bits2|bch63_t7": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 24,
+     "n_imp": 660
+    },
+    "bits2|bch63_t10": {
+     "GAR": 0.06666666666666667,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|bch63_t11": {
+     "GAR": 0.08333333333333333,
+     "FAR": 0.0,
+     "key_bits": 16,
+     "n_imp": 660
+    }
+   }
+  },
+  "S3_1month": {
+   "bit_error_rate_genuine_mean": 0.3723404255319149,
+   "eer": {
+    "vec_cos": 0.16287878787878787,
+    "bits1": 0.2515151515151515,
+    "bits2": 0.23712121212121212
+   },
+   "lock": {
+    "bits1|rep_r3": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 15,
+     "n_imp": 660
+    },
+    "bits1|rep_r5": {
+     "GAR": 0.05,
+     "FAR": 0.004545454545454545,
+     "key_bits": 9,
+     "n_imp": 660
+    },
+    "bits1|rep_r7": {
+     "GAR": 0.18333333333333332,
+     "FAR": 0.015151515151515152,
+     "key_bits": 6,
+     "n_imp": 660
+    },
+    "bits1|bch31_t2": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 27,
+     "n_imp": 660
+    },
+    "bits1|bch31_t3": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 17,
+     "n_imp": 660
+    },
+    "bits1|bch31_t4": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch31_t5": {
+     "GAR": 0.03333333333333333,
+     "FAR": 0.0,
+     "key_bits": 11,
+     "n_imp": 660
+    },
+    "bits1|bch63_t5": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 20,
+     "n_imp": 660
+    },
+    "bits1|bch63_t7": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 8,
+     "n_imp": 660
+    },
+    "bits1|bch63_t10": {
+     "GAR": 0.06666666666666667,
+     "FAR": 0.0,
+     "key_bits": 2,
+     "n_imp": 660
+    },
+    "bits2|rep_r3": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 31,
+     "n_imp": 660
+    },
+    "bits2|rep_r5": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|rep_r7": {
+     "GAR": 0.06666666666666667,
+     "FAR": 0.0,
+     "key_bits": 13,
+     "n_imp": 660
+    },
+    "bits2|bch31_t2": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 63,
+     "n_imp": 660
+    },
+    "bits2|bch31_t3": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 48,
+     "n_imp": 660
+    },
+    "bits2|bch31_t4": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch31_t5": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 33,
+     "n_imp": 660
+    },
+    "bits2|bch63_t5": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 40,
+     "n_imp": 660
+    },
+    "bits2|bch63_t7": {
+     "GAR": 0.0,
+     "FAR": 0.0,
+     "key_bits": 24,
+     "n_imp": 660
+    },
+    "bits2|bch63_t10": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 18,
+     "n_imp": 660
+    },
+    "bits2|bch63_t11": {
+     "GAR": 0.016666666666666666,
+     "FAR": 0.0,
+     "key_bits": 16,
+     "n_imp": 660
+    }
+   }
+  }
+ }
+}

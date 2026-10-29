@@ -1,0 +1,464 @@
+{
+ "chosen": {
+  "com": {
+   "setting": "com_K1536_t23",
+   "tune": {
+    "GAR_6tries": 0.6885245901639344,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.47540983606557374,
+    "key_bits": 594,
+    "impostor_pairs": 3660
+   },
+   "test": {
+    "GAR_6tries": 0.6935483870967742,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5806451612903226,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   }
+  },
+  "helper": {
+   "setting": "helper_K1536_t23",
+   "tune": {
+    "GAR_6tries": 0.8032786885245902,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5901639344262295,
+    "key_bits": 594,
+    "impostor_pairs": 3660
+   },
+   "test": {
+    "GAR_6tries": 0.8225806451612904,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.6774193548387096,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   }
+  }
+ },
+ "all": {
+  "tune": {
+   "com_K3072_t15": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1668,
+    "impostor_pairs": 3660
+   },
+   "com_K3072_t23": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1188,
+    "impostor_pairs": 3660
+   },
+   "com_K3072_t31": {
+    "GAR_6tries": 0.08196721311475409,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.01639344262295082,
+    "key_bits": 660,
+    "impostor_pairs": 3660
+   },
+   "com_K3072_t39": {
+    "GAR_6tries": 0.3114754098360656,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.11475409836065574,
+    "key_bits": 564,
+    "impostor_pairs": 3660
+   },
+   "com_K3072_t47": {
+    "GAR_6tries": 0.47540983606557374,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.32786885245901637,
+    "key_bits": 348,
+    "impostor_pairs": 3660
+   },
+   "com_K1536_t15": {
+    "GAR_6tries": 0.5081967213114754,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.3442622950819672,
+    "key_bits": 834,
+    "impostor_pairs": 3660
+   },
+   "com_K1536_t23": {
+    "GAR_6tries": 0.6885245901639344,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.47540983606557374,
+    "key_bits": 594,
+    "impostor_pairs": 3660
+   },
+   "com_K1536_t31": {
+    "GAR_6tries": 0.7704918032786885,
+    "FAR_6tries": 0.000273224043715847,
+    "GAR_1img": 0.5409836065573771,
+    "key_bits": 330,
+    "impostor_pairs": 3660
+   },
+   "com_K1536_t39": {
+    "GAR_6tries": 0.8524590163934426,
+    "FAR_6tries": 0.000546448087431694,
+    "GAR_1img": 0.5901639344262295,
+    "key_bits": 282,
+    "impostor_pairs": 3660
+   },
+   "com_K1536_t47": {
+    "GAR_6tries": 0.8852459016393442,
+    "FAR_6tries": 0.004918032786885246,
+    "GAR_1img": 0.6885245901639344,
+    "key_bits": 174,
+    "impostor_pairs": 3660
+   },
+   "com_K768_t15": {
+    "GAR_6tries": 0.7213114754098361,
+    "FAR_6tries": 0.000546448087431694,
+    "GAR_1img": 0.47540983606557374,
+    "key_bits": 417,
+    "impostor_pairs": 3660
+   },
+   "com_K768_t23": {
+    "GAR_6tries": 0.8524590163934426,
+    "FAR_6tries": 0.004644808743169399,
+    "GAR_1img": 0.5409836065573771,
+    "key_bits": 297,
+    "impostor_pairs": 3660
+   },
+   "com_K768_t31": {
+    "GAR_6tries": 0.8852459016393442,
+    "FAR_6tries": 0.02622950819672131,
+    "GAR_1img": 0.5901639344262295,
+    "key_bits": 165,
+    "impostor_pairs": 3660
+   },
+   "com_K768_t39": {
+    "GAR_6tries": 0.9508196721311475,
+    "FAR_6tries": 0.09398907103825137,
+    "GAR_1img": 0.7868852459016393,
+    "key_bits": 141,
+    "impostor_pairs": 3660
+   },
+   "com_K768_t47": {
+    "GAR_6tries": 0.9672131147540983,
+    "FAR_6tries": 0.223224043715847,
+    "GAR_1img": 0.8360655737704918,
+    "key_bits": 87,
+    "impostor_pairs": 3660
+   },
+   "helper_K3072_t15": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1668,
+    "impostor_pairs": 3660
+   },
+   "helper_K3072_t23": {
+    "GAR_6tries": 0.03278688524590164,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.03278688524590164,
+    "key_bits": 1188,
+    "impostor_pairs": 3660
+   },
+   "helper_K3072_t31": {
+    "GAR_6tries": 0.13114754098360656,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.06557377049180328,
+    "key_bits": 660,
+    "impostor_pairs": 3660
+   },
+   "helper_K3072_t39": {
+    "GAR_6tries": 0.47540983606557374,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.21311475409836064,
+    "key_bits": 564,
+    "impostor_pairs": 3660
+   },
+   "helper_K3072_t47": {
+    "GAR_6tries": 0.6229508196721312,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.4426229508196721,
+    "key_bits": 348,
+    "impostor_pairs": 3660
+   },
+   "helper_K1536_t15": {
+    "GAR_6tries": 0.7540983606557377,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.4098360655737705,
+    "key_bits": 834,
+    "impostor_pairs": 3660
+   },
+   "helper_K1536_t23": {
+    "GAR_6tries": 0.8032786885245902,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5901639344262295,
+    "key_bits": 594,
+    "impostor_pairs": 3660
+   },
+   "helper_K1536_t31": {
+    "GAR_6tries": 0.8524590163934426,
+    "FAR_6tries": 0.000273224043715847,
+    "GAR_1img": 0.7049180327868853,
+    "key_bits": 330,
+    "impostor_pairs": 3660
+   },
+   "helper_K1536_t39": {
+    "GAR_6tries": 0.9344262295081968,
+    "FAR_6tries": 0.001912568306010929,
+    "GAR_1img": 0.8032786885245902,
+    "key_bits": 282,
+    "impostor_pairs": 3660
+   },
+   "helper_K1536_t47": {
+    "GAR_6tries": 0.9508196721311475,
+    "FAR_6tries": 0.008469945355191256,
+    "GAR_1img": 0.9016393442622951,
+    "key_bits": 174,
+    "impostor_pairs": 3660
+   },
+   "helper_K768_t15": {
+    "GAR_6tries": 0.7868852459016393,
+    "FAR_6tries": 0.002459016393442623,
+    "GAR_1img": 0.5409836065573771,
+    "key_bits": 417,
+    "impostor_pairs": 3660
+   },
+   "helper_K768_t23": {
+    "GAR_6tries": 0.9016393442622951,
+    "FAR_6tries": 0.011475409836065573,
+    "GAR_1img": 0.7213114754098361,
+    "key_bits": 297,
+    "impostor_pairs": 3660
+   },
+   "helper_K768_t31": {
+    "GAR_6tries": 0.9508196721311475,
+    "FAR_6tries": 0.048087431693989074,
+    "GAR_1img": 0.7868852459016393,
+    "key_bits": 165,
+    "impostor_pairs": 3660
+   },
+   "helper_K768_t39": {
+    "GAR_6tries": 0.9672131147540983,
+    "FAR_6tries": 0.1431693989071038,
+    "GAR_1img": 0.8852459016393442,
+    "key_bits": 141,
+    "impostor_pairs": 3660
+   },
+   "helper_K768_t47": {
+    "GAR_6tries": 1.0,
+    "FAR_6tries": 0.3073770491803279,
+    "GAR_1img": 0.9508196721311475,
+    "key_bits": 87,
+    "impostor_pairs": 3660
+   }
+  },
+  "test": {
+   "com_K3072_t15": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1668,
+    "impostor_pairs": 3782
+   },
+   "com_K3072_t23": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1188,
+    "impostor_pairs": 3782
+   },
+   "com_K3072_t31": {
+    "GAR_6tries": 0.0967741935483871,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.04838709677419355,
+    "key_bits": 660,
+    "impostor_pairs": 3782
+   },
+   "com_K3072_t39": {
+    "GAR_6tries": 0.3064516129032258,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.16129032258064516,
+    "key_bits": 564,
+    "impostor_pairs": 3782
+   },
+   "com_K3072_t47": {
+    "GAR_6tries": 0.5483870967741935,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.3387096774193548,
+    "key_bits": 348,
+    "impostor_pairs": 3782
+   },
+   "com_K1536_t15": {
+    "GAR_6tries": 0.5,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.3548387096774194,
+    "key_bits": 834,
+    "impostor_pairs": 3782
+   },
+   "com_K1536_t23": {
+    "GAR_6tries": 0.6935483870967742,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5806451612903226,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   },
+   "com_K1536_t31": {
+    "GAR_6tries": 0.7741935483870968,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.6612903225806451,
+    "key_bits": 330,
+    "impostor_pairs": 3782
+   },
+   "com_K1536_t39": {
+    "GAR_6tries": 0.8064516129032258,
+    "FAR_6tries": 0.0007932310946589106,
+    "GAR_1img": 0.7258064516129032,
+    "key_bits": 282,
+    "impostor_pairs": 3782
+   },
+   "com_K1536_t47": {
+    "GAR_6tries": 0.8387096774193549,
+    "FAR_6tries": 0.004759386567953464,
+    "GAR_1img": 0.8064516129032258,
+    "key_bits": 174,
+    "impostor_pairs": 3782
+   },
+   "com_K768_t15": {
+    "GAR_6tries": 0.7258064516129032,
+    "FAR_6tries": 0.0010576414595452142,
+    "GAR_1img": 0.5645161290322581,
+    "key_bits": 417,
+    "impostor_pairs": 3782
+   },
+   "com_K768_t23": {
+    "GAR_6tries": 0.7903225806451613,
+    "FAR_6tries": 0.008989952406134321,
+    "GAR_1img": 0.7096774193548387,
+    "key_bits": 297,
+    "impostor_pairs": 3782
+   },
+   "com_K768_t31": {
+    "GAR_6tries": 0.8548387096774194,
+    "FAR_6tries": 0.03648863035430989,
+    "GAR_1img": 0.8064516129032258,
+    "key_bits": 165,
+    "impostor_pairs": 3782
+   },
+   "com_K768_t39": {
+    "GAR_6tries": 0.8870967741935484,
+    "FAR_6tries": 0.09545214172395558,
+    "GAR_1img": 0.8225806451612904,
+    "key_bits": 141,
+    "impostor_pairs": 3782
+   },
+   "com_K768_t47": {
+    "GAR_6tries": 0.9354838709677419,
+    "FAR_6tries": 0.21073506081438392,
+    "GAR_1img": 0.8387096774193549,
+    "key_bits": 87,
+    "impostor_pairs": 3782
+   },
+   "helper_K3072_t15": {
+    "GAR_6tries": 0.0,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.0,
+    "key_bits": 1668,
+    "impostor_pairs": 3782
+   },
+   "helper_K3072_t23": {
+    "GAR_6tries": 0.04838709677419355,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.016129032258064516,
+    "key_bits": 1188,
+    "impostor_pairs": 3782
+   },
+   "helper_K3072_t31": {
+    "GAR_6tries": 0.1774193548387097,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.08064516129032258,
+    "key_bits": 660,
+    "impostor_pairs": 3782
+   },
+   "helper_K3072_t39": {
+    "GAR_6tries": 0.46774193548387094,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.2903225806451613,
+    "key_bits": 564,
+    "impostor_pairs": 3782
+   },
+   "helper_K3072_t47": {
+    "GAR_6tries": 0.7258064516129032,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5806451612903226,
+    "key_bits": 348,
+    "impostor_pairs": 3782
+   },
+   "helper_K1536_t15": {
+    "GAR_6tries": 0.6451612903225806,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.43548387096774194,
+    "key_bits": 834,
+    "impostor_pairs": 3782
+   },
+   "helper_K1536_t23": {
+    "GAR_6tries": 0.8225806451612904,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.6774193548387096,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   },
+   "helper_K1536_t31": {
+    "GAR_6tries": 0.8548387096774194,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.7419354838709677,
+    "key_bits": 330,
+    "impostor_pairs": 3782
+   },
+   "helper_K1536_t39": {
+    "GAR_6tries": 0.9193548387096774,
+    "FAR_6tries": 0.0015864621893178213,
+    "GAR_1img": 0.8387096774193549,
+    "key_bits": 282,
+    "impostor_pairs": 3782
+   },
+   "helper_K1536_t47": {
+    "GAR_6tries": 0.9354838709677419,
+    "FAR_6tries": 0.009254362771020624,
+    "GAR_1img": 0.8709677419354839,
+    "key_bits": 174,
+    "impostor_pairs": 3782
+   },
+   "helper_K768_t15": {
+    "GAR_6tries": 0.8064516129032258,
+    "FAR_6tries": 0.0026441036488630354,
+    "GAR_1img": 0.6290322580645161,
+    "key_bits": 417,
+    "impostor_pairs": 3782
+   },
+   "helper_K768_t23": {
+    "GAR_6tries": 0.8709677419354839,
+    "FAR_6tries": 0.015335801163405606,
+    "GAR_1img": 0.7903225806451613,
+    "key_bits": 297,
+    "impostor_pairs": 3782
+   },
+   "helper_K768_t31": {
+    "GAR_6tries": 0.9193548387096774,
+    "FAR_6tries": 0.05684822845055526,
+    "GAR_1img": 0.8064516129032258,
+    "key_bits": 165,
+    "impostor_pairs": 3782
+   },
+   "helper_K768_t39": {
+    "GAR_6tries": 0.9354838709677419,
+    "FAR_6tries": 0.1425171866737176,
+    "GAR_1img": 0.8709677419354839,
+    "key_bits": 141,
+    "impostor_pairs": 3782
+   },
+   "helper_K768_t47": {
+    "GAR_6tries": 0.9516129032258065,
+    "FAR_6tries": 0.28662083553675305,
+    "GAR_1img": 0.9193548387096774,
+    "key_bits": 87,
+    "impostor_pairs": 3782
+   }
+  }
+ }
+}

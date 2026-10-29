@@ -1,0 +1,15 @@
+{
+  "name": "neurolock_pop",
+  "version": "0.1.0",
+  "type": "core",
+  "category": "identity",
+  "description": "Neurolock proof of personhood: forwards the tab's actions to the local Neurolock service (127.0.0.1:47200)",
+  "main": "neurolock_pop_plugin",
+  "dependencies": [],
+
+  "nix": {
+    "packages": { "build": [], "runtime": [] },
+    "external_libraries": [],
+    "cmake": { "find_packages": [], "extra_sources": [], "extra_include_dirs": [], "extra_link_libraries": [] }
+  }
+}

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeuroLock Station</title>
+<style>
+:root{--bg:#0b0b0b;--line:#242424;--line2:#3a3a3a;--ink:#ededed;--dim:#8c8c8c;--faint:#555;--ok:#5cb88a;--bad:#e5534b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Helvetica Neue",Helvetica,Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+header{display:flex;align-items:center;gap:28px;padding:0 40px;height:60px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-weight:500;letter-spacing:.32em;font-size:13px;white-space:nowrap}.logo b{font-weight:500;color:var(--dim)}
+nav{display:flex;flex:1;height:100%;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav button{background:none;border:0;border-bottom:1px solid transparent;color:var(--faint);padding:0 12px;cursor:pointer;font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;height:100%}
+nav button:hover{color:var(--ink)}nav button.on{color:var(--ink);border-bottom-color:var(--ink)}nav button.done{color:var(--dim)}
+.who{display:flex;align-items:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.who span{margin-right:12px}
+.who button{font:inherit;padding:7px 12px;border:1px solid var(--line2);background:none;color:var(--dim);cursor:pointer;margin-left:-1px}
+.who button.on{color:#000;background:var(--ink);border-color:var(--ink)}
+main{max-width:1200px;margin:0 auto;padding:64px 40px 120px}
+section{display:none;animation:fade .5s}section.on{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+h1{font-size:64px;line-height:1.02;margin:0 0 28px;font-weight:400;letter-spacing:-.035em}
+h2{font-size:40px;line-height:1.1;margin:0 0 14px;font-weight:400;letter-spacing:-.025em}
+.kicker{color:var(--dim);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:22px}
+.lead{color:var(--dim);max-width:720px;margin:0 0 40px;font-size:17px;line-height:1.6}
+.lead b{color:var(--ink);font-weight:500}
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.grid>*{background:var(--bg)}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}h1{font-size:40px}h2{font-size:30px}main{padding:40px 16px}header{padding:0 16px}}
+.card{padding:28px}
+.card h3{margin:0 0 14px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.card small,.note{color:var(--dim);font-size:13px}
+.btn{font:inherit;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:13px 20px;border:1px solid var(--ink);background:var(--ink);color:#000;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:transparent;color:var(--ink)}.btn:disabled{opacity:.3;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}.btn.ghost:hover{border-color:var(--ink)}
+.btn.red{background:transparent;color:var(--bad);border-color:#5a2724}.btn.red:hover{border-color:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sim,.real{display:inline-block;font-size:9.5px;letter-spacing:.16em;font-weight:500;padding:2px 6px;vertical-align:middle;margin-left:6px;text-transform:uppercase}
+.sim{color:var(--ink);border:1px dashed var(--dim)}.real{color:var(--dim);border:1px solid var(--line2)}
+.verdict{margin-top:20px;padding:14px 0 0;border-top:1px solid var(--line);font-weight:500;display:none;gap:14px;align-items:baseline;flex-wrap:wrap}
+.verdict.show{display:flex;animation:fade .4s}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}.verdict.warn{color:var(--ink)}
+.verdict span{color:var(--dim);font-weight:400}
+img.px{image-rendering:pixelated;width:100%;display:block;background:#000}
+.scanner{position:relative;aspect-ratio:4/3;background:#050505;border:1px solid var(--line);overflow:hidden;transition:border-color .2s}
+.scanner.over{border-color:var(--ink)}
+.scanner img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 1.2s}
+.drophint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--faint);font-size:11px;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:20px}
+.drophint .plus{font-size:36px;font-weight:200;letter-spacing:0;color:var(--dim)}
+.sweep{position:absolute;left:0;right:0;height:1px;background:#fff;box-shadow:0 0 18px 2px #ffffff55;top:-10px;opacity:0}
+.sweep.go{animation:sweep 1.6s ease-in-out 2;opacity:1}
+@keyframes sweep{0%{top:0}50%{top:100%}100%{top:0}}
+.hud{position:absolute;left:14px;bottom:12px;font-size:10.5px;letter-spacing:.06em;color:var(--dim)}
+.tray{display:flex;flex-direction:column;gap:8px}
+.sample{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;padding:10px;border:1px solid var(--line);cursor:grab;transition:border-color .15s;user-select:none}
+.sample:hover{border-color:var(--line2)}.sample.used{border-color:var(--ink)}.sample:active{cursor:grabbing}
+.sample img{width:48px;height:36px;object-fit:cover}
+.sample .ico{width:48px;height:36px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--dim);font-size:10px}
+.sample b{font-weight:500;font-size:14px;display:block}.sample em{font-style:normal;color:var(--faint);font-size:11px}
+.slot{border:1px dashed var(--line2);padding:16px;text-align:center;color:var(--faint);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:border-color .2s}
+.slot.over{border-color:var(--ink);color:var(--ink)}.slot.full{border-style:solid;color:var(--ink);text-transform:none;letter-spacing:0;font-size:13px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+.step{cursor:pointer;padding:12px;background:var(--bg);opacity:.3;transition:opacity .3s}
+.step.lit{opacity:.75}.step.sel{opacity:1;box-shadow:inset 0 -1px 0 var(--ink)}
+.step b{display:block;font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;color:var(--dim)}
+.explain{min-height:70px;margin-bottom:20px;color:var(--dim);font-size:15px}
+.explain b{color:var(--ink);font-weight:500}
+.bars .bar{display:grid;grid-template-columns:70px 1fr 52px;gap:12px;align-items:center;margin:9px 0;font-size:12px}
+.track{position:relative;height:6px;background:#1a1a1a}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.thr{position:absolute;top:-5px;bottom:-5px;width:1px;background:var(--dim)}
+.thr::after{content:attr(data-l);position:absolute;top:-18px;left:-50px;width:100px;text-align:center;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+canvas{max-width:100%}
+.flickwrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0 12px}
+.flick{height:170px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;font-weight:400;letter-spacing:.3em;cursor:crosshair;user-select:none;background:var(--bg);position:relative}
+.flick .hz{font-size:11px;letter-spacing:.1em;color:var(--dim);margin-top:8px}
+.flick.gaze::after{content:"";position:absolute;inset:10px;border:1px solid var(--dim)}
+.actionbox{border:1px solid var(--line);padding:20px 24px;font-size:17px}
+.segs{display:flex;gap:1px;background:var(--line);border:1px solid var(--line)}
+.seg{flex:1;padding:10px 6px;text-align:center;font-size:11px;background:var(--bg);color:var(--faint)}
+.seg.c{color:var(--ok)}.seg.d{color:var(--bad)}.seg.n{color:var(--ink)}.seg.cur{box-shadow:inset 0 -1px 0 var(--ink);color:var(--ink)}
+.chain{display:flex;gap:28px;overflow-x:auto;padding:4px 2px 18px}
+.blk{min-width:230px;border:1px solid var(--line);padding:16px;font-size:11.5px;position:relative;animation:fade .4s}
+.blk.badblk{border-color:var(--bad)}
+.blk h4{margin:0 0 10px;font-size:10.5px;font-weight:500;letter-spacing:.18em}.blk .k{color:var(--faint)}.blk .h{color:var(--ink)}
+.blk::before{content:"";position:absolute;left:-29px;top:50%;width:28px;height:1px;background:var(--line2)}.blk:first-child::before{display:none}
+.attack{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.attack:last-child{border-bottom:1px solid var(--line)}
+.attack b{font-weight:400;font-size:16px}
+.attack .res{font-size:12px;min-width:260px;text-align:right;color:var(--dim)}
+.layers{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap}
+.layer{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.layer.pass{color:var(--dim)}.layer.stop{color:var(--bad)}.layer.stop::before{content:"■ "}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:80px;align-items:end;min-height:66vh;padding-bottom:20px}
+@media(max-width:860px){.hero{grid-template-columns:1fr;gap:40px}}
+.pipe{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.pipe div{display:grid;grid-template-columns:40px 1fr;padding:14px 0;border-bottom:1px solid var(--line);color:var(--dim);font-size:14px}
+.pipe i{font-style:normal;color:var(--faint);font-size:11px;letter-spacing:.1em;padding-top:2px}
+.pipe b{color:var(--ink);font-weight:500}
+.big{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1}
+.legend{display:flex;gap:18px;font-size:11px;color:var(--dim);margin-top:12px}.legend i{display:inline-block;width:8px;height:8px;margin-right:6px}
+.warnbox{border-left:1px solid var(--ink);padding:4px 0 4px 16px;color:var(--dim);font-size:13px;margin-bottom:28px}
+.keep{color:var(--ink)}.gone{color:var(--faint);text-decoration:line-through}
+select{background:var(--bg);color:var(--ink);border:1px solid var(--line2);padding:6px 8px;font:inherit;font-size:12px}
+.sp{height:28px}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="logo">NEURO<b>LOCK</b></div>
+  <nav id="nav"></nav>
+</header>
+<main>
+
+<section data-t="Start">
+  <div class="hero" style="grid-template-columns:1fr;min-height:70vh;align-items:center">
+    <div>
+      <div class="kicker">Proof of personhood</div>
+      <h1>Prove you're one live human.<br>Without handing over your body.</h1>
+      <p class="lead">Asha enrolled at a Field Station two weeks ago. Today someone walks up claiming to be her. Follow the station as it decides. The sensors aren't connected yet, so you'll drag in recorded scans and EEG. Everything the station computes from them is real.</p>
+      <button class="btn" onclick="go(1)">Begin</button>
+    </div>
+  </div>
+</section>
+
+<section data-t="Scan">
+  <div class="kicker">01 · Scan</div>
+  <h2>Who's at the station?</h2>
+  <p class="lead">Drag a finger scan into the scanner.</p>
+  <div class="grid g2">
+    <div class="card">
+      <div class="scanner" id="scanBox">
+        <img id="nirImg" alt="">
+        <div class="drophint" id="dropHint"><div class="plus">+</div>Drop a scan here</div>
+        <div class="sweep" id="sweep"></div>
+        <div class="hud mono" id="hud"></div>
+      </div>
+      <p class="note" id="stageCap" style="min-height:22px;margin:14px 0 0"></p>
+    </div>
+    <div class="card">
+      <div class="tray" id="veinTray"></div>
+      <p class="note" style="margin-top:18px">Real near-infrared scans from the FV-USM database, taken about two weeks after enrolment.</p>
+      <div class="verdict" id="scanV"></div>
+      <div class="row" style="margin-top:24px"><button class="btn" id="next1" onclick="go(2)" disabled>Next</button></div>
+    </div>
+  </div>
+</section>
+
+<section data-t="Pulse">
+  <div class="kicker">02 · Alive</div>
+  <h2>Is the finger alive?</h2>
+  <p class="lead">Every heartbeat makes the finger slightly darker. A printed photo doesn't do that. Drag in a finger video.</p>
+  <div class="grid g2">
+    <div class="card">
+      <canvas id="pulseCv" width="560" height="200" style="width:100%"></canvas>
+      <div class="sp"></div>
+      <div class="tray" id="pulseTray"></div>
+      <p class="note" style="margin-top:14px">Synthetic clips <span class="sim">Simulated</span>. We have no recorded finger videos yet; the detector is real.</p>
+    </div>
+    <div class="card">
+      <h3>Heart rate</h3><div class="big mono" id="bpm">—</div>
+      <div class="verdict" id="pulseV"></div>
+      <div class="row" style="margin-top:28px"><button class="btn" id="next2" onclick="go(3)" disabled>Next</button></div>
+    </div>
+  </div>
+</section>
+
+<section data-t="Key">
+  <div class="kicker">03 · Unlock</div>
+  <h2>Do the veins open Asha's lock?</h2>
+  <p class="lead">At enrolment, Asha's veins were turned into bits and used to lock a secret. Her vein image was then deleted. A new scan never matches exactly, so some bits flip. The lock tolerates up to <b id="tT"></b> flips in each of the 6 blocks. Same person: few flips. Different person: far too many.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3 id="bitTitle">Bit flips since enrolment</h3>
+      <canvas id="bitCv" width="765" height="186" style="width:100%;image-rendering:pixelated;background:#000"></canvas>
+      <div class="bars" id="blkBars" style="margin-top:18px"></div>
+    </div>
+    <div class="card">
+      <div class="mono note" id="lockLog" style="line-height:2;min-height:160px"></div>
+      <div class="verdict" id="lockV"></div>
+      <div class="row" style="margin-top:24px"><button class="btn" id="lockBtn" onclick="lockRun()">Try to unlock</button><button class="btn" id="next3" onclick="go(4)" style="display:none">Next</button></div>
+    </div>
+  </div>
+</section>
+
+<section data-t="Consent">
+  <div class="kicker">04 · Consent</div>
+  <h2>Does she mean it?</h2>
+  <p class="lead">She is asked to approve an action. Both buttons flicker, each at a new random rate every 1.5 seconds. Whichever one she looks at, her brain echoes its rhythm. That shows a live person choosing, right now, for this action. Drag in her EEG, press start, and hold your mouse on a button.</p>
+  <div class="warnbox">Flickers at 6–15 Hz. <label><input type="checkbox" id="calm"> Reduce flicker</label></div>
+  <div class="actionbox mono">transfer 50 FS tokens to field-station-vote</div>
+  <div class="flickwrap">
+    <div class="flick c" id="btnC">CONFIRM<div class="hz" id="hzC"></div></div>
+    <div class="flick d" id="btnD">DENY<div class="hz" id="hzD"></div></div>
+  </div>
+  <div class="segs" id="conSegs"></div>
+  <div class="grid g2" style="margin-top:28px">
+    <div class="card">
+      <div class="slot" id="eegSlot">Drop EEG here</div>
+      <div class="tray" id="eegTray" style="margin-top:10px"></div>
+      <p class="note" style="margin-top:14px">Real resting EEG <span class="real">PhysioNet</span>, with a simulated flicker response added <span class="sim">Simulated</span>. The detector is real.</p>
+      <div class="row" style="margin-top:18px"><button class="btn" onclick="runConsent()">Start</button></div>
+    </div>
+    <div class="card">
+      <h3>Brain response at each rate</h3>
+      <canvas id="rhoCv" width="560" height="170" style="width:100%"></canvas>
+      <div class="verdict" id="conV"></div>
+      <div class="chain" id="chain" style="margin-top:18px"></div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:24px"><button class="btn" onclick="go(5)">Next</button></div>
+</section>
+
+<section data-t="Attacks">
+  <div class="kicker">05 · Attacks</div>
+  <h2>Try to fool it</h2>
+  <p class="lead">Each attack passes through every check. One of them stops it.</p>
+  <button class="btn" onclick="runAttacks()">Run attacks</button>
+  <div id="attacks" style="margin-top:28px"></div>
+  <div class="grid g3" style="margin-top:40px">
+    <div class="card"><h3>Wrong person accepted</h3><div class="big">1 in 2970</div></div>
+    <div class="card"><h3>Duplicate sign-ups caught</h3><div class="big">98%</div></div>
+    <div class="card"><h3>Vein error rate</h3><div class="big">0.4%</div></div>
+  </div>
+  <p class="note" style="margin-top:20px;max-width:820px">Measured on held-out people. Still simulated: brain flicker responses and finger pulse. Not built yet: the scanner hardware. An attacker who controls the capture software could fake the pulse and the brain signal; stopping that needs trusted sensors.</p>
+</section>
+
+</main>
+<script src="data.js"></script>
+<script>
+const D = window.NL, Pm = D.params, $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+const sha = async s => hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)));
+const rnd = n => hex(crypto.getRandomValues(new Uint8Array(n)));
+const img = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; });
+const unpack = (a, L) => { const o = new Uint8Array(L); for (let i = 0; i < L; i++) o[i] = (a[i >> 3] >> (7 - (i & 7))) & 1; return o; };
+function verdict(el, cls, html) { el.className = 'verdict show ' + cls; el.innerHTML = html; }
+let WHO = null;
+
+/* nav */
+const secs = [...document.querySelectorAll('section')];
+secs.forEach((s, i) => { const b = document.createElement('button'); b.textContent = s.dataset.t; b.onclick = () => go(i); $('nav').appendChild(b); });
+function go(i) { stopFlicker(); secs.forEach((s, k) => s.classList.toggle('on', k === i)); [...$('nav').children].forEach((b, k) => b.classList.toggle('on', k === i)); scrollTo(0, 0); }
+
+/* drag & drop */
+function makeSample(tray, item, onLoad) {
+  const d = document.createElement('div'); d.className = 'sample'; d.draggable = true;
+  d.innerHTML = `${item.thumb ? `<img src="${item.thumb}">` : `<div class="ico mono">${item.ico}</div>`}<div><b>${item.title}</b><em class="mono">${item.file}</em></div>`;
+  const use = () => { [...tray.children].forEach(c => c.classList.remove('used')); d.classList.add('used'); onLoad(item); };
+  d.ondragstart = () => { window._drag = { item, use }; };
+  d.onclick = use; tray.appendChild(d);
+}
+function dropZone(el, kind) {
+  el.ondragover = e => { e.preventDefault(); el.classList.add('over'); };
+  el.ondragleave = () => el.classList.remove('over');
+  el.ondrop = e => { e.preventDefault(); el.classList.remove('over'); const g = window._drag; if (g && g.item.kind === kind) g.use(); };
+}
+
+/* 01 scan + extraction */
+const VEINS = [
+  { kind: 'vein', who: 'asha', title: 'Asha', file: 'FV-USM 2nd_session/019_3/01.jpg', thumb: D.asha.s2.raw },
+  { kind: 'vein', who: 'bob', title: 'Someone else (Bob)', file: 'FV-USM 2nd_session/096_3/01.jpg', thumb: D.bob.s2.raw }];
+VEINS.forEach(v => makeSample($('veinTray'), v, loadScan));
+dropZone($('scanBox'), 'vein');
+async function loadScan(it) {
+  WHO = it.who; resetDownstream(); $('nirImg').style.filter = '';
+  const s = it.who === 'asha' ? D.asha.s2 : D.bob.s2, im = $('nirImg');
+  $('dropHint').style.display = 'none'; im.style.opacity = 0; $('scanV').className = 'verdict'; $('next1').disabled = true;
+  $('sweep').classList.remove('go'); void $('sweep').offsetWidth; $('sweep').classList.add('go');
+  $('stageCap').textContent = 'Scanning…'; await sleep(3200);
+  const steps = [[s.raw, 'Near-infrared image: veins absorb the light'], [s.roi, 'Cropped and straightened'], [s.enh, 'Contrast enhanced'], [s.maxcurv, 'Vein pattern extracted']];
+  for (const [src, cap] of steps) { im.style.transition = 'none'; im.style.opacity = 0; im.src = src; im.style.imageRendering = src === s.raw ? '' : 'pixelated'; im.style.filter = src === s.maxcurv ? 'invert(1)' : ''; void im.offsetWidth; im.style.transition = ''; im.style.opacity = 1; $('stageCap').textContent = cap; await sleep(1500); }
+  verdict($('scanV'), 'ok', 'Vein pattern ready'); $('next1').disabled = false;
+}
+
+/* 02 pulse */
+function detrend(y, w = 15) { return y.map((v, i) => { let s = 0, c = 0; for (let j = Math.max(0, i - w); j < Math.min(y.length, i + w); j++) { s += y[j]; c++; } return v - s / c; }); }
+function plotTrace(cv, ys, col) {
+  const g = cv.getContext('2d'), W = cv.width, H = cv.height; g.clearRect(0, 0, W, H); if (ys.length < 2) return;
+  let mn = Math.min(...ys), mx = Math.max(...ys); if (mx - mn < 1e-9) mx = mn + 1;
+  g.strokeStyle = col; g.lineWidth = 1.5; g.beginPath(); ys.forEach((y, i) => { const X = i / (ys.length - 1) * W, Y = H - 8 - (y - mn) / (mx - mn) * (H - 16); i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); g.stroke();
+}
+const PULSES = [{ kind: 'pulse', v: 'live', title: 'Live finger', file: 'synthetic clip · 10 s', ico: 'MP4' }, { kind: 'pulse', v: 'photo', title: 'Printed photo', file: 'synthetic clip · 10 s', ico: 'MP4' }];
+PULSES.forEach(p => makeSample($('pulseTray'), p, it => runPulse(it.v)));
+dropZone($('pulseCv'), 'pulse');
+async function runPulse(kind) {
+  const p = D.pulse[kind], tr = p.trace; $('pulseV').className = 'verdict'; $('bpm').textContent = '—';
+  for (let i = 30; i <= tr.length; i += 6) { plotTrace($('pulseCv'), detrend(tr.slice(Math.max(0, i - 180), i)).slice(15, -15), kind === 'live' ? '#ededed' : '#666'); await sleep(35); }
+  if (p.ok) { $('bpm').textContent = p.bpm.toFixed(0); verdict($('pulseV'), 'ok', 'Heartbeat found'); $('next2').disabled = false; }
+  else verdict($('pulseV'), 'bad', 'No heartbeat <span>a photo has no blood flow</span>');
+}
+
+/* 03 unlock */
+$('tT').textContent = D.commit[0].t;
+function resetDownstream() { $('lockLog').innerHTML = ''; $('lockV').className = 'verdict'; $('blkBars').innerHTML = ''; $('lockBtn').style.display = ''; $('next3').style.display = 'none'; $('conV').className = 'verdict'; $('chain').innerHTML = ''; }
+async function lockFinger(C, P) {
+  const L = C.L, n = C.n, nb = L / n, w = unpack(C.wbits, L), err = unpack(P.errbits, L), cv = $('bitCv'), g = cv.getContext('2d'), cell = 3, rh = 30;
+  cv.width = n * cell; cv.height = nb * (rh + 1); g.fillStyle = '#000'; g.fillRect(0, 0, cv.width, cv.height);
+  $('bitTitle').textContent = `Finger ${C.finger}: bit flips since enrolment`;
+  $('blkBars').innerHTML = [...Array(nb)].map((_, b) => `<div class="bar"><span class="mono">block ${b + 1}</span><div class="track"><div class="fill" id="bk${b}"></div><div class="thr" style="left:${C.t / 90 * 100}%" ${b ? '' : 'data-l="limit"'}></div></div><span class="mono" id="bv${b}"></span></div>`).join('');
+  for (let u = 0; u < L; u += 30) { for (let j = u; j < Math.min(L, u + 30); j++) { const b = Math.floor(j / n), i = j % n; g.fillStyle = err[j] ? '#e5534b' : (w[j] ? '#3a3a3a' : '#161616'); g.fillRect(i * cell, b * (rh + 1), cell, rh); } await sleep(6); }
+  for (let b = 0; b < nb; b++) { const e = P.blocks[b]; $('bk' + b).style.width = Math.min(100, e / 90 * 100) + '%'; $('bk' + b).style.background = e <= C.t ? 'var(--ok)' : 'var(--bad)'; $('bv' + b).textContent = e; await sleep(160); }
+  return P.ok;
+}
+async function lockRun() {
+  if (!WHO) return verdict($('lockV'), 'warn', 'Scan a finger first');
+  $('lockBtn').style.display = 'none'; const log = $('lockLog'); log.innerHTML = '';
+  for (const C of D.commit) {
+    const P = WHO === 'asha' ? C.asha : C.bob;
+    const ok = await lockFinger(C, P);
+    log.innerHTML += `finger ${C.finger}: ${(P.ber * 100).toFixed(0)}% of bits flipped → ${ok ? 'opens' : 'stays locked'}<br>`;
+    if (ok) { log.innerHTML += `secret recovered → identity key ${rnd(6)}…<br>`; verdict($('lockV'), 'ok', `It's Asha <span>Her veins opened the lock. No vein image was stored.</span>`); $('next3').style.display = ''; return; }
+    await sleep(1200);
+  }
+  verdict($('lockV'), 'bad', 'Rejected <span>These veins don\'t open Asha\'s lock. The station stops here.</span>');
+  $('lockBtn').style.display = ''; $('lockBtn').textContent = 'Try again';
+}
+
+/* 04 consent (also proves liveness) */
+const FQ = Pm.freqs, SEG = Pm.seg_s * 1000, K = Pm.K;
+let flickers = [], raf = null, gaze = null, eeg = false, segN = 0;
+function flicker(el, f) { flickers = flickers.filter(x => x.el !== el); if (f) flickers.push({ el, f }); if (!raf) loop(); }
+function loop() { const t = performance.now() / 1000, calm = $('calm').checked; flickers.forEach(({ el, f }) => { const on = (t * f) % 1 < .5; el.style.background = on ? (calm ? '#2a2a2a' : '#ededed') : '#0b0b0b'; el.style.color = on && !calm ? '#000' : ''; }); raf = requestAnimationFrame(loop); }
+function stopFlicker() { flickers.forEach(({ el }) => { el.style.background = ''; el.style.color = ''; }); flickers = []; if (raf) cancelAnimationFrame(raf); raf = null; }
+['btnC', 'btnD'].forEach(id => { $(id).onmouseenter = () => { gaze = id; $(id).classList.add('gaze'); }; $(id).onmouseleave = () => { gaze = null; $(id).classList.remove('gaze'); }; });
+makeSample($('eegTray'), { kind: 'eeg', title: 'Asha · resting EEG', file: `PhysioNet subject ${D.asha.id[1]} · 8 channels`, ico: 'EEG' }, it => { eeg = true; $('eegSlot').className = 'slot full'; $('eegSlot').textContent = 'Asha · EEG loaded'; });
+dropZone($('eegSlot'), 'eeg');
+const pick = excl => { let a; do { a = crypto.getRandomValues(new Uint8Array(1))[0] % FQ.length; } while (a === excl); return a; };
+function drawRho(rhos, cI, dI) {
+  const cv = $('rhoCv'), g = cv.getContext('2d'), W = cv.width, H = cv.height, bw = W / FQ.length, yv = r => H - 22 - r * (H - 34);
+  g.clearRect(0, 0, W, H); g.font = '11px Helvetica';
+  rhos.forEach((r, i) => { g.fillStyle = i === cI ? '#5cb88a' : i === dI ? '#e5534b' : '#2a2a2a'; g.fillRect(i * bw + 8, yv(r), bw - 16, H - 22 - yv(r)); g.fillStyle = '#666'; g.fillText(FQ[i].toFixed(1) + ' Hz', i * bw + 10, H - 6); });
+  g.strokeStyle = '#666'; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(0, yv(Pm.rho_thr)); g.lineTo(W, yv(Pm.rho_thr)); g.stroke(); g.setLineDash([]);
+}
+async function runConsent(attempt = 1) {
+  if (!eeg) return verdict($('conV'), 'warn', 'Drop the EEG in first');
+  const segs = $('conSegs'); segs.innerHTML = [...Array(K)].map((_, i) => `<div class="seg" id="cs${i}">${i + 1}</div>`).join(''); $('conV').className = 'verdict';
+  const ans = [];
+  for (let i = 0; i < K; i++) {
+    const c = pick(-1), d = pick(c);
+    $('hzC').textContent = FQ[c].toFixed(1) + ' Hz'; $('hzD').textContent = FQ[d].toFixed(1) + ' Hz';
+    flicker($('btnC'), FQ[c]); flicker($('btnD'), FQ[d]); $('cs' + i).classList.add('cur');
+    const n = { btnC: 0, btnD: 0, none: 0 }; const iv = setInterval(() => n[gaze || 'none']++, 50); await sleep(SEG); clearInterval(iv);
+    const tot = n.btnC + n.btnD + n.none, ti = n.btnC / tot > .6 ? c : n.btnD / tot > .6 ? d : FQ.length;
+    const r = D.ssvep.grid[(segN++) % D.ssvep.grid.length][ti].rhos; let k = 0; r.forEach((v, j) => { if (v > r[k]) k = j; });
+    const a = r[k] >= Pm.rho_thr && k === c ? 'c' : r[k] >= Pm.rho_thr && k === d ? 'd' : '-';
+    ans.push(a); drawRho(r, c, d);
+    const el = $('cs' + i); el.classList.remove('cur'); el.classList.add(a === 'c' ? 'c' : a === 'd' ? 'd' : 'n'); el.textContent = a === 'c' ? 'Confirm' : a === 'd' ? 'Deny' : 'Unclear';
+  }
+  stopFlicker(); $('hzC').textContent = $('hzD').textContent = '';
+  if (ans.every(a => a === 'c')) { verdict($('conV'), 'ok', 'Confirmed <span>signed and recorded</span>'); ledger(); }
+  else if (ans.every(a => a === 'd')) verdict($('conV'), 'bad', 'Denied <span>nothing is signed</span>');
+  else if (attempt < 3) { verdict($('conV'), 'warn', `Unclear, trying again (${attempt + 1} of 3)`); await sleep(1400); return runConsent(attempt + 1); }
+  else verdict($('conV'), 'warn', 'No clear answer <span>nothing is signed</span>');
+}
+async function ledger() {
+  const r1 = await sha('register' + rnd(32)), r2 = await sha(r1 + 'consent' + rnd(32));
+  $('chain').innerHTML = [['ENROLLED', 'two weeks ago', r1], ['CONSENT', 'just now', r2]].map(([t, w, h]) => `<div class="blk"><h4>${t}</h4><div class="k">${w}</div><div class="mono h" style="margin-top:6px">${h.slice(0, 20)}…</div></div>`).join('');
+}
+
+/* 05 attacks */
+const ATT = [
+  ['Someone else uses their own finger', 'Unlock', `${(D.commit[0].bob.ber * 100).toFixed(0)}% of bits flipped: far past the limit`],
+  ['Printed photo of Asha\'s finger', 'Pulse', 'no heartbeat'],
+  ['Asha tries to sign up a second time', 'Duplicate check', `matches her existing record (score ${D.dedup.asha2[0].toFixed(1)} vs limit ${Pm.thr_dedup.toFixed(1)})`],
+  ['Replay a recording of Asha\'s earlier "confirm"', 'Consent', 'the old recording follows old flicker rates'],
+  ['Pressure Asha: she looks at DENY', 'Consent', 'nothing is signed'],
+  ['Edit the ledger afterwards', 'Ledger', 'the hash chain breaks']];
+$('attacks').innerHTML = ATT.map((a, i) => `<div class="attack"><b>${a[0]}</b><span class="res" id="ar${i}"></span></div>`).join('');
+async function runAttacks() { for (let i = 0; i < ATT.length; i++) { $('ar' + i).innerHTML = ''; } for (let i = 0; i < ATT.length; i++) { await sleep(450); $('ar' + i).innerHTML = `<b style="color:var(--bad);font-size:13px">Stopped · ${ATT[i][1]}</b><br>${ATT[i][2]}`; } }
+
+go(+(location.hash.slice(1)) || 0);
+</script>
+
+</body>
+</html>

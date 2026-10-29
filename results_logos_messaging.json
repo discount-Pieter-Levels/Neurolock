@@ -1,0 +1,113 @@
+{
+ "transport": "local socket (fallback)",
+ "topic": "/neurolock/1/liveness/json",
+ "cases": [
+  {
+   "case": "genuine: live person, fresh challenge",
+   "accepted": true,
+   "reason": "ok",
+   "round_trip_s": 0.0,
+   "message_fields": [
+    "challenge_id",
+    "id_pub",
+    "nonce",
+    "result",
+    "sig",
+    "ts",
+    "type"
+   ]
+  },
+  {
+   "case": "replay the same reply again",
+   "accepted": false,
+   "reason": "challenge_id already used (replay)"
+  },
+  {
+   "case": "no response (resting EEG)",
+   "accepted": false,
+   "reason": "device reported FAIL",
+   "round_trip_s": 0.01,
+   "message_fields": [
+    "challenge_id",
+    "id_pub",
+    "nonce",
+    "result",
+    "sig",
+    "ts",
+    "type"
+   ]
+  },
+  {
+   "case": "forged signature (other key, Asha's id_pub)",
+   "accepted": false,
+   "reason": "bad signature",
+   "round_trip_s": 0.01,
+   "message_fields": [
+    "challenge_id",
+    "id_pub",
+    "nonce",
+    "result",
+    "sig",
+    "ts",
+    "type"
+   ]
+  },
+  {
+   "case": "unregistered person",
+   "accepted": false,
+   "reason": "id_pub is not a registered human",
+   "round_trip_s": 0.01,
+   "message_fields": [
+    "challenge_id",
+    "id_pub",
+    "nonce",
+    "result",
+    "sig",
+    "ts",
+    "type"
+   ]
+  },
+  {
+   "case": "wrong nonce",
+   "accepted": false,
+   "reason": "wrong nonce",
+   "round_trip_s": 0.0,
+   "message_fields": [
+    "challenge_id",
+    "id_pub",
+    "nonce",
+    "result",
+    "sig",
+    "ts",
+    "type"
+   ]
+  },
+  {
+   "case": "late reply",
+   "accepted": false,
+   "reason": "late reply (95 s > 90 s)"
+  }
+ ],
+ "wire": {
+  "challenge_fields": [
+   "challenge_id",
+   "flicker_sequence",
+   "issued_block",
+   "issued_ts",
+   "nonce",
+   "seg_s",
+   "type",
+   "verifier"
+  ],
+  "reply_fields": [
+   "challenge_id",
+   "id_pub",
+   "nonce",
+   "result",
+   "sig",
+   "ts",
+   "type"
+  ],
+  "contains_signals": false
+ }
+}

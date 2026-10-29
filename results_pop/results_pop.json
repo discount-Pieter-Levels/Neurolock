@@ -1,0 +1,952 @@
+{
+ "labels": {
+  "ssvep": "protocol test on simulated responses - not physiological evidence",
+  "pulse": "synthetic finger videos (simulated); no real finger video on disk",
+  "identities": "virtual (chimeric) people: FV-USM person + EEG subject, assumed independent",
+  "eeg_same_day": "PhysioNet enrol/verify recordings are minutes apart (optimistic)"
+ },
+ "inventory": {
+  "FV-USM": {
+   "people": 123,
+   "fingers_per_person": 4,
+   "sessions": 2,
+   "images_per_finger_per_session": 6,
+   "location": "~/data/FV-USM (raw_data only)"
+  },
+  "PhysioNet_EEGMMI": {
+   "subjects": 109,
+   "channels": 64,
+   "sfreq_hz": 160,
+   "recordings": "run 1 (rest, enrol) + rest periods of runs 3/7/11 (verify)",
+   "location": "~/mne_data/MNE-eegbci-data"
+  },
+  "OpenNeuro_ds004148": {
+   "subjects": 60,
+   "sessions": 3,
+   "gaps": "S2 +90 min, S3 +1 month",
+   "location": "~/neurolock_run/ds004148"
+  },
+  "eegmat (Kaggle mental arithmetic)": "NOT on disk (used 2026-10-15 elsewhere); skipped",
+  "SSVEP dataset": "NONE on disk -> SSVEP is SIMULATED on real resting EEG",
+  "pulse videos (~/data/pulse_videos)": "absent -> pulse tested on synthetic videos only"
+ },
+ "virtual_people": {
+  "tune": 54,
+  "test": 55,
+  "vein_people_tune_test": [
+   61,
+   62
+  ],
+  "eeg_subjects_tune_test": [
+   54,
+   55
+  ]
+ },
+ "vein_finger_pair_tune_EER": {
+  "1+2": 0.01639344262295082,
+  "1+3": 0.000819672131147541,
+  "1+4": 0.01639344262295082,
+  "2+3": 0.0028688524590163933,
+  "2+4": 0.0001366120218579235,
+  "3+4": 0.0
+ },
+ "vein_fingers_chosen": [
+  3,
+  4
+ ],
+ "vein_commit_tune_choice": {
+  "align": "helper",
+  "K": 1536,
+  "t": 23,
+  "GAR_6tries": 0.8032786885245902,
+  "FAR_6tries": 0.0,
+  "GAR_1img": 0.5901639344262295,
+  "key_bits": 594,
+  "impostor_pairs": 3660
+ },
+ "vein_commit_tune_sweep": [
+  {
+   "align": "helper",
+   "K": 3072,
+   "t": 15,
+   "GAR_6tries": 0.0,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.0,
+   "key_bits": 1668,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 3072,
+   "t": 23,
+   "GAR_6tries": 0.03278688524590164,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.03278688524590164,
+   "key_bits": 1188,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 3072,
+   "t": 31,
+   "GAR_6tries": 0.13114754098360656,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.06557377049180328,
+   "key_bits": 660,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 3072,
+   "t": 39,
+   "GAR_6tries": 0.47540983606557374,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.21311475409836064,
+   "key_bits": 564,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 3072,
+   "t": 47,
+   "GAR_6tries": 0.6229508196721312,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.4426229508196721,
+   "key_bits": 348,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 1536,
+   "t": 15,
+   "GAR_6tries": 0.7540983606557377,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.4098360655737705,
+   "key_bits": 834,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 1536,
+   "t": 23,
+   "GAR_6tries": 0.8032786885245902,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.5901639344262295,
+   "key_bits": 594,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 1536,
+   "t": 31,
+   "GAR_6tries": 0.8524590163934426,
+   "FAR_6tries": 0.000273224043715847,
+   "GAR_1img": 0.7049180327868853,
+   "key_bits": 330,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 1536,
+   "t": 39,
+   "GAR_6tries": 0.9344262295081968,
+   "FAR_6tries": 0.001912568306010929,
+   "GAR_1img": 0.8032786885245902,
+   "key_bits": 282,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 1536,
+   "t": 47,
+   "GAR_6tries": 0.9508196721311475,
+   "FAR_6tries": 0.008469945355191256,
+   "GAR_1img": 0.9016393442622951,
+   "key_bits": 174,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 768,
+   "t": 15,
+   "GAR_6tries": 0.7868852459016393,
+   "FAR_6tries": 0.002459016393442623,
+   "GAR_1img": 0.5409836065573771,
+   "key_bits": 417,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 768,
+   "t": 23,
+   "GAR_6tries": 0.9016393442622951,
+   "FAR_6tries": 0.011475409836065573,
+   "GAR_1img": 0.7213114754098361,
+   "key_bits": 297,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 768,
+   "t": 31,
+   "GAR_6tries": 0.9508196721311475,
+   "FAR_6tries": 0.048087431693989074,
+   "GAR_1img": 0.7868852459016393,
+   "key_bits": 165,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 768,
+   "t": 39,
+   "GAR_6tries": 0.9672131147540983,
+   "FAR_6tries": 0.1431693989071038,
+   "GAR_1img": 0.8852459016393442,
+   "key_bits": 141,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "helper",
+   "K": 768,
+   "t": 47,
+   "GAR_6tries": 1.0,
+   "FAR_6tries": 0.3073770491803279,
+   "GAR_1img": 0.9508196721311475,
+   "key_bits": 87,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 3072,
+   "t": 15,
+   "GAR_6tries": 0.0,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.0,
+   "key_bits": 1668,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 3072,
+   "t": 23,
+   "GAR_6tries": 0.0,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.0,
+   "key_bits": 1188,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 3072,
+   "t": 31,
+   "GAR_6tries": 0.08196721311475409,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.01639344262295082,
+   "key_bits": 660,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 3072,
+   "t": 39,
+   "GAR_6tries": 0.3114754098360656,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.11475409836065574,
+   "key_bits": 564,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 3072,
+   "t": 47,
+   "GAR_6tries": 0.47540983606557374,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.32786885245901637,
+   "key_bits": 348,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 1536,
+   "t": 15,
+   "GAR_6tries": 0.5081967213114754,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.3442622950819672,
+   "key_bits": 834,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 1536,
+   "t": 23,
+   "GAR_6tries": 0.6885245901639344,
+   "FAR_6tries": 0.0,
+   "GAR_1img": 0.47540983606557374,
+   "key_bits": 594,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 1536,
+   "t": 31,
+   "GAR_6tries": 0.7704918032786885,
+   "FAR_6tries": 0.000273224043715847,
+   "GAR_1img": 0.5409836065573771,
+   "key_bits": 330,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 1536,
+   "t": 39,
+   "GAR_6tries": 0.8524590163934426,
+   "FAR_6tries": 0.000546448087431694,
+   "GAR_1img": 0.5901639344262295,
+   "key_bits": 282,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 1536,
+   "t": 47,
+   "GAR_6tries": 0.8852459016393442,
+   "FAR_6tries": 0.004918032786885246,
+   "GAR_1img": 0.6885245901639344,
+   "key_bits": 174,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 768,
+   "t": 15,
+   "GAR_6tries": 0.7213114754098361,
+   "FAR_6tries": 0.000546448087431694,
+   "GAR_1img": 0.47540983606557374,
+   "key_bits": 417,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 768,
+   "t": 23,
+   "GAR_6tries": 0.8524590163934426,
+   "FAR_6tries": 0.004644808743169399,
+   "GAR_1img": 0.5409836065573771,
+   "key_bits": 297,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 768,
+   "t": 31,
+   "GAR_6tries": 0.8852459016393442,
+   "FAR_6tries": 0.02622950819672131,
+   "GAR_1img": 0.5901639344262295,
+   "key_bits": 165,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 768,
+   "t": 39,
+   "GAR_6tries": 0.9508196721311475,
+   "FAR_6tries": 0.09398907103825137,
+   "GAR_1img": 0.7868852459016393,
+   "key_bits": 141,
+   "impostor_pairs": 3660
+  },
+  {
+   "align": "com",
+   "K": 768,
+   "t": 47,
+   "GAR_6tries": 0.9672131147540983,
+   "FAR_6tries": 0.223224043715847,
+   "GAR_1img": 0.8360655737704918,
+   "key_bits": 87,
+   "impostor_pairs": 3660
+  }
+ ],
+ "brain_key_tune_choice": {
+  "dims": 32,
+  "keep": 32,
+  "enc": "2bit",
+  "n": 63,
+  "t": 11,
+  "key_bits": 16,
+  "GAR_tune": 0.2037037037037037,
+  "FAR_tune": 0.0,
+  "n_imp_tune": 918
+ },
+ "brain_key_test": {
+  "GAR": 0.21818181818181817,
+  "FAR": 0.0,
+  "FAR_95pct_upper_if_zero": 0.00101010101010101,
+  "impostor_pairs": 2970,
+  "key_bits": 16,
+  "dof": {
+   "bits": 64,
+   "impostor_HD_p": 0.4723905723905724,
+   "impostor_HD_sd": 0.07138127245997862,
+   "genuine_HD_mean": 0.24488636363636362,
+   "N_daugman": 48.91535365624429
+  },
+  "note": "PhysioNet enrol/verify same day (minutes apart): optimistic"
+ },
+ "brain_key_ds004148_cross_session": {
+  "test_subjects": 30,
+  "dims": 29,
+  "keep": 29,
+  "same_recording": {
+   "GAR": 0.8666666666666667,
+   "FAR": 0.0
+  },
+  "+90min": {
+   "GAR": 0.13333333333333333,
+   "FAR": 0.0
+  },
+  "+1month": {
+   "GAR": 0.0,
+   "FAR": 0.0
+  }
+ },
+ "ssvep_rho_thr_tune": {
+  "0.5": 0.9327565180992059,
+  "1.0": 0.7101947324007313,
+  "1.5": 0.5806350591740584,
+  "2.0": 0.5071459490324849,
+  "3.0": 0.4109830093429001
+ },
+ "ssvep": {
+  "label": "protocol test on simulated responses - not physiological evidence",
+  "by_seg_and_amp": {
+   "amp0.2_seg0.5": {
+    "true_pass": 0.0,
+    "segment_accept": 0.05227272727272727,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.0,
+    "trials": 220
+   },
+   "amp0.2_seg1.0": {
+    "true_pass": 0.022727272727272728,
+    "segment_accept": 0.10909090909090909,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.022727272727272728,
+    "trials": 220
+   },
+   "amp0.2_seg1.5": {
+    "true_pass": 0.05,
+    "segment_accept": 0.18295454545454545,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.045454545454545456,
+    "trials": 220
+   },
+   "amp0.2_seg2.0": {
+    "true_pass": 0.05454545454545454,
+    "segment_accept": 0.2215909090909091,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.05909090909090909,
+    "trials": 220
+   },
+   "amp0.2_seg3.0": {
+    "true_pass": 0.1318181818181818,
+    "segment_accept": 0.38977272727272727,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.12272727272727273,
+    "trials": 220
+   },
+   "amp0.3_seg0.5": {
+    "true_pass": 0.0,
+    "segment_accept": 0.09318181818181819,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.004545454545454545,
+    "trials": 220
+   },
+   "amp0.3_seg1.0": {
+    "true_pass": 0.05454545454545454,
+    "segment_accept": 0.24772727272727274,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.05454545454545454,
+    "trials": 220
+   },
+   "amp0.3_seg1.5": {
+    "true_pass": 0.1,
+    "segment_accept": 0.4125,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.10909090909090909,
+    "trials": 220
+   },
+   "amp0.3_seg2.0": {
+    "true_pass": 0.17727272727272728,
+    "segment_accept": 0.5545454545454546,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.22272727272727272,
+    "trials": 220
+   },
+   "amp0.3_seg3.0": {
+    "true_pass": 0.5636363636363636,
+    "segment_accept": 0.8454545454545455,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.55,
+    "trials": 220
+   },
+   "amp0.5_seg0.5": {
+    "true_pass": 0.045454545454545456,
+    "segment_accept": 0.20795454545454545,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.045454545454545456,
+    "trials": 220
+   },
+   "amp0.5_seg1.0": {
+    "true_pass": 0.2545454545454545,
+    "segment_accept": 0.6215909090909091,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.21818181818181817,
+    "trials": 220
+   },
+   "amp0.5_seg1.5": {
+    "true_pass": 0.6727272727272727,
+    "segment_accept": 0.8954545454545455,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.6863636363636364,
+    "trials": 220
+   },
+   "amp0.5_seg2.0": {
+    "true_pass": 0.8909090909090909,
+    "segment_accept": 0.9681818181818181,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.8909090909090909,
+    "trials": 220
+   },
+   "amp0.5_seg3.0": {
+    "true_pass": 0.9772727272727273,
+    "segment_accept": 0.9943181818181818,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.9772727272727273,
+    "trials": 220
+   },
+   "amp0.7_seg0.5": {
+    "true_pass": 0.1,
+    "segment_accept": 0.4011363636363636,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.12272727272727273,
+    "trials": 220
+   },
+   "amp0.7_seg1.0": {
+    "true_pass": 0.7954545454545454,
+    "segment_accept": 0.9397727272727273,
+    "replay_pass": 0.004545454545454545,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.7772727272727272,
+    "trials": 220
+   },
+   "amp0.7_seg1.5": {
+    "true_pass": 0.9545454545454546,
+    "segment_accept": 0.9886363636363636,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.9636363636363636,
+    "trials": 220
+   },
+   "amp0.7_seg2.0": {
+    "true_pass": 0.9772727272727273,
+    "segment_accept": 0.9943181818181818,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.9863636363636363,
+    "trials": 220
+   },
+   "amp0.7_seg3.0": {
+    "true_pass": 1.0,
+    "segment_accept": 1.0,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 1.0,
+    "trials": 220
+   }
+  },
+  "by_K": {
+   "K1_tries1": {
+    "true_pass": 0.8818181818181818,
+    "segment_accept": 0.8818181818181818,
+    "replay_pass": 0.10454545454545454,
+    "rest_pass": 0.03636363636363636,
+    "injected_synthetic_pass": 0.8545454545454545,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.03636363636363636,
+    "replay_pass_95pct_upper": 0.10454545454545454
+   },
+   "K2_tries1": {
+    "true_pass": 0.8272727272727273,
+    "segment_accept": 0.9079545454545455,
+    "replay_pass": 0.015909090909090907,
+    "rest_pass": 0.0022727272727272726,
+    "injected_synthetic_pass": 0.8295454545454546,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.0022727272727272726,
+    "replay_pass_95pct_upper": 0.015909090909090907
+   },
+   "K4_tries1": {
+    "true_pass": 0.7386363636363636,
+    "segment_accept": 0.9142045454545454,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.7113636363636363,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.006818181818181818,
+    "replay_pass_95pct_upper": 0.006818181818181818
+   },
+   "K6_tries1": {
+    "true_pass": 0.6045454545454545,
+    "segment_accept": 0.9102272727272728,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.6,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.006818181818181818,
+    "replay_pass_95pct_upper": 0.006818181818181818
+   },
+   "K1_tries3": {
+    "true_pass": 0.9977272727272727,
+    "segment_accept": 0.8871212121212121,
+    "replay_pass": 0.3704545454545455,
+    "rest_pass": 0.1,
+    "injected_synthetic_pass": 0.9954545454545455,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.1,
+    "replay_pass_95pct_upper": 0.3704545454545455
+   },
+   "K2_tries3": {
+    "true_pass": 0.9886363636363636,
+    "segment_accept": 0.8939393939393939,
+    "replay_pass": 0.06136363636363636,
+    "rest_pass": 0.00909090909090909,
+    "injected_synthetic_pass": 0.9863636363636363,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.00909090909090909,
+    "replay_pass_95pct_upper": 0.06136363636363636
+   },
+   "K4_tries3": {
+    "true_pass": 0.8954545454545455,
+    "segment_accept": 0.9037878787878788,
+    "replay_pass": 0.0022727272727272726,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.925,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.006818181818181818,
+    "replay_pass_95pct_upper": 0.0022727272727272726
+   },
+   "K6_tries3": {
+    "true_pass": 0.8204545454545454,
+    "segment_accept": 0.902020202020202,
+    "replay_pass": 0.0,
+    "rest_pass": 0.0,
+    "injected_synthetic_pass": 0.8636363636363636,
+    "trials": 440,
+    "rest_pass_95pct_upper": 0.006818181818181818,
+    "replay_pass_95pct_upper": 0.006818181818181818
+   }
+  }
+ },
+ "ssvep_consent": {
+  "label": "protocol test on simulated responses - not physiological evidence",
+  "K": 4,
+  "seg_s": 1.5,
+  "amp": 0.5,
+  "max_tries": 3,
+  "confirm_1try": 0.7045454545454546,
+  "confirm": 0.9159090909090909,
+  "deny_gives_consent": 0.0,
+  "deny_detected": 0.9272727272727272,
+  "rest_gives_consent": 0.0,
+  "replay_gives_consent": 0.0,
+  "injected_gives_consent": 0.9113636363636364,
+  "trials": 440,
+  "deny_gives_consent_95pct_upper": 0.006818181818181818,
+  "rest_gives_consent_95pct_upper": 0.006818181818181818,
+  "replay_gives_consent_95pct_upper": 0.006818181818181818
+ },
+ "pulse": {
+  "label": "synthetic finger videos (simulated); no real finger video on disk",
+  "threshold_snr_db": 6.849200672830618,
+  "threshold_note": "chosen on TUNE simulated stills (max tune still SNR + 0.5 dB); Phase 1 used 3 dB",
+  "old_3dB_threshold_test": {
+   "live_pass": 1.0,
+   "still_image_pass": 0.055
+  },
+  "live_pass": 1.0,
+  "still_image_pass": 0.0,
+  "live_snr_median_db": 30.441981885117414,
+  "still_snr_max_db": 4.8559956234716175,
+  "n_each": 200,
+  "real_video": "none on disk (~/data/pulse_videos absent): skipped",
+  "heartbeat_cross_check": "finger pulse <-> EEG heartbeat artifact: NOT testable on static data (Phase 3)"
+ },
+ "layer_table": {
+  "matcher": [
+   {
+    "layers": "vein",
+    "GAR": 0.9818181818181818,
+    "zero_effort_FAR": 0.0003367003367003367,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ pulse",
+    "GAR": 0.9818181818181818,
+    "zero_effort_FAR": 0.0003367003367003367,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ SSVEP (3 tries)",
+    "GAR": 0.8727272727272727,
+    "zero_effort_FAR": 0.0003367003367003367,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ SSVEP consent (high-stakes)",
+    "GAR": 0.8363636363636363,
+    "zero_effort_FAR": 0.0003367003367003367,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "[dropped] + EEG brain key instead",
+    "GAR": 0.18181818181818182,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   }
+  ],
+  "commitment": [
+   {
+    "layers": "vein",
+    "GAR": 0.8,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ pulse",
+    "GAR": 0.8,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ SSVEP (3 tries)",
+    "GAR": 0.7090909090909091,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "+ SSVEP consent (high-stakes)",
+    "GAR": 0.6727272727272727,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   },
+   {
+    "layers": "[dropped] + EEG brain key instead",
+    "GAR": 0.18181818181818182,
+    "zero_effort_FAR": 0.0,
+    "impostor_pairs": 2970
+   }
+  ]
+ },
+ "vein_test_detail": {
+  "person_EER_matcher": 0.0023569023569023568,
+  "retake_rate_test": 0.08870967741935484,
+  "VI_test_FMR_at_thr_verify": 5.55e-05,
+  "commit_test_all_62": {
+   "helper": {
+    "GAR_6tries": 0.8225806451612904,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.6774193548387096,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   },
+   "com": {
+    "GAR_6tries": 0.6935483870967742,
+    "FAR_6tries": 0.0,
+    "GAR_1img": 0.5806451612903226,
+    "key_bits": 594,
+    "impostor_pairs": 3782
+   }
+  }
+ },
+ "pipeline_run": {
+  "enrolled": 50,
+  "of": 55,
+  "false_duplicates_at_enrolment": 0,
+  "other_enrol_rejections": {
+   "ssvep": 5
+  },
+  "verify_outcomes": {
+   "commitment_normal": {
+    "pass": 39,
+    "vein": 10,
+    "ssvep": 1
+   },
+   "commitment_high_stakes": {
+    "consent": 4,
+    "pass": 33,
+    "ssvep": 3,
+    "vein": 10
+   },
+   "matcher_normal": {
+    "pass": 48,
+    "vein": 1,
+    "ssvep": 1
+   },
+   "matcher_high_stakes": {
+    "pass": 43,
+    "ssvep": 5,
+    "consent": 1,
+    "vein": 1
+   }
+  },
+  "verify_GAR": {
+   "commitment_normal": 0.78,
+   "commitment_high_stakes": 0.66,
+   "matcher_normal": 0.96,
+   "matcher_high_stakes": 0.86
+  },
+  "impostor_attempts_commitment": {
+   "vein": 80
+  },
+  "re_enrolment": {
+   "dedup": 49,
+   "not caught": 1
+  },
+  "re_enrolment_catch_rate": 0.98,
+  "timing_s": {
+   "argon2id_one_call": 0.082784225666425,
+   "argon2_params": {
+    "time_cost": 3,
+    "memory_cost": 65536,
+    "parallelism": 1
+   },
+   "enrol_mean": 1.1691856946545158,
+   "enrol_max (largest registry)": 2.104955823000637,
+   "verify_mean": 0.153660939445017
+  },
+  "ledger_chain_valid": true
+ },
+ "attack_table": [
+  {
+   "attack": "Impostor's own veins (zero effort)",
+   "stopped_by": "vein layer",
+   "measured": "matcher FAR 0.0003, commitment FAR 0.0000 over 2970 pairs; real pipeline: {'vein': 80} of 80"
+  },
+  {
+   "attack": "Same person enrolling twice (session-2 veins)",
+   "stopped_by": "dedup",
+   "measured": "caught 98.0% ({'dedup': 49, 'not caught': 1})"
+  },
+  {
+   "attack": "Static / printed vein image (no pulse) [SIMULATED video]",
+   "stopped_by": "pulse",
+   "measured": "still-image pass rate 0.000 (n=200); pipeline: rejected by pulse"
+  },
+  {
+   "attack": "Replayed EEG for a new challenge [SIMULATED SSVEP]",
+   "stopped_by": "SSVEP",
+   "measured": "replay pass 0.0023 (n=440); pipeline: rejected by ssvep"
+  },
+  {
+   "attack": "Resting EEG, no response [SIMULATED SSVEP]",
+   "stopped_by": "SSVEP",
+   "measured": "rest pass 0.0000 (n=440)"
+  },
+  {
+   "attack": "Person looks at DENY for a high-stakes action [SIMULATED SSVEP]",
+   "stopped_by": "SSVEP consent",
+   "measured": "consent given 0.0000 (n=440); pipeline: rejected by ssvep"
+  },
+  {
+   "attack": "Replayed CONFIRM recording for a new action [SIMULATED SSVEP]",
+   "stopped_by": "SSVEP consent",
+   "measured": "consent given 0.0000 (n=440); pipeline: rejected by consent"
+  },
+  {
+   "attack": "Second agent delegation, same app",
+   "stopped_by": "nullifier",
+   "measured": "rejected: nullifier already has an active delegation (one agent per human per app)"
+  },
+  {
+   "attack": "Using a revoked delegation",
+   "stopped_by": "ledger",
+   "measured": "allowed=False: delegation not active (revoked, expired or unknown)"
+  },
+  {
+   "attack": "Software-injected synthetic signals (attacker knows challenge)",
+   "stopped_by": "NOT STOPPED (needs trusted hardware)",
+   "measured": "synthetic SSVEP pass 0.925"
+  }
+ ],
+ "delegation": {
+  "first": "accepted",
+  "second_same_app": "rejected: nullifier already has an active delegation (one agent per human per app)",
+  "different_app": "accepted",
+  "after_revocation": "delegation not active (revoked, expired or unknown)"
+ },
+ "demo_cast": {
+  "asha": 0,
+  "bob": 1,
+  "note": "Asha = a test person who passed every layer in the evaluation run (33/50 did including SSVEP consent, 39/50 without)"
+ },
+ "params_public": {
+  "vein_matcher": {
+   "norm": {
+    "gabor": [
+     0.37543153762817383,
+     0.040745463222265244
+    ],
+    "maxcurv": [
+     0.1752036064863205,
+     0.023193124681711197
+    ]
+   },
+   "q_thr": 9.567968368530273,
+   "fingers": [
+    3,
+    4
+   ],
+   "thr_verify": 6.492245264148599,
+   "thr_dedup": 7.4868669952300575
+  },
+  "vein_commit": {
+   "K": 1536,
+   "code": {
+    "code": "bch",
+    "n": 255,
+    "t": 23
+   },
+   "method": "maxcurv",
+   "align": "helper"
+  },
+  "ssvep_rho_thr": 0.5806350591740584,
+  "pulse_min_snr_db": 6.849200672830618,
+  "brain_key": {
+   "dims": 32,
+   "keep": 32,
+   "enc": "2bit",
+   "code": {
+    "code": "bch",
+    "n": 63,
+    "t": 11
+   }
+  }
+ },
+ "runtime_s": 800.9670355319977
+}

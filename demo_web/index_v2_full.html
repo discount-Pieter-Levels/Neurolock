@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeuroLock Station</title>
+<style>
+:root{--bg:#0b0b0b;--line:#242424;--line2:#3a3a3a;--ink:#ededed;--dim:#8c8c8c;--faint:#555;--ok:#5cb88a;--bad:#e5534b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Helvetica Neue",Helvetica,Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+header{display:flex;align-items:center;gap:28px;padding:0 40px;height:60px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-weight:500;letter-spacing:.32em;font-size:13px;white-space:nowrap}.logo b{font-weight:500;color:var(--dim)}
+nav{display:flex;flex:1;height:100%;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav button{background:none;border:0;border-bottom:1px solid transparent;color:var(--faint);padding:0 12px;cursor:pointer;font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;height:100%}
+nav button:hover{color:var(--ink)}nav button.on{color:var(--ink);border-bottom-color:var(--ink)}nav button.done{color:var(--dim)}
+.who{display:flex;align-items:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.who span{margin-right:12px}
+.who button{font:inherit;padding:7px 12px;border:1px solid var(--line2);background:none;color:var(--dim);cursor:pointer;margin-left:-1px}
+.who button.on{color:#000;background:var(--ink);border-color:var(--ink)}
+main{max-width:1200px;margin:0 auto;padding:64px 40px 120px}
+section{display:none;animation:fade .5s}section.on{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+h1{font-size:64px;line-height:1.02;margin:0 0 28px;font-weight:400;letter-spacing:-.035em}
+h2{font-size:40px;line-height:1.1;margin:0 0 14px;font-weight:400;letter-spacing:-.025em}
+.kicker{color:var(--dim);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:22px}
+.lead{color:var(--dim);max-width:720px;margin:0 0 40px;font-size:17px;line-height:1.6}
+.lead b{color:var(--ink);font-weight:500}
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.grid>*{background:var(--bg)}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}h1{font-size:40px}h2{font-size:30px}main{padding:40px 16px}header{padding:0 16px}}
+.card{padding:28px}
+.card h3{margin:0 0 14px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.card small,.note{color:var(--dim);font-size:13px}
+.btn{font:inherit;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:13px 20px;border:1px solid var(--ink);background:var(--ink);color:#000;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:transparent;color:var(--ink)}.btn:disabled{opacity:.3;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}.btn.ghost:hover{border-color:var(--ink)}
+.btn.red{background:transparent;color:var(--bad);border-color:#5a2724}.btn.red:hover{border-color:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sim,.real{display:inline-block;font-size:9.5px;letter-spacing:.16em;font-weight:500;padding:2px 6px;vertical-align:middle;margin-left:6px;text-transform:uppercase}
+.sim{color:var(--ink);border:1px dashed var(--dim)}.real{color:var(--dim);border:1px solid var(--line2)}
+.verdict{margin-top:20px;padding:14px 0 0;border-top:1px solid var(--line);font-weight:500;display:none;gap:14px;align-items:baseline;flex-wrap:wrap}
+.verdict.show{display:flex;animation:fade .4s}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}.verdict.warn{color:var(--ink)}
+.verdict span{color:var(--dim);font-weight:400}
+img.px{image-rendering:pixelated;width:100%;display:block;background:#000}
+.scanner{position:relative;aspect-ratio:4/3;background:#050505;border:1px solid var(--line);overflow:hidden;transition:border-color .2s}
+.scanner.over{border-color:var(--ink)}
+.scanner img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 1.2s}
+.drophint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--faint);font-size:11px;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:20px}
+.drophint .plus{font-size:36px;font-weight:200;letter-spacing:0;color:var(--dim)}
+.sweep{position:absolute;left:0;right:0;height:1px;background:#fff;box-shadow:0 0 18px 2px #ffffff55;top:-10px;opacity:0}
+.sweep.go{animation:sweep 1.6s ease-in-out 2;opacity:1}
+@keyframes sweep{0%{top:0}50%{top:100%}100%{top:0}}
+.hud{position:absolute;left:14px;bottom:12px;font-size:10.5px;letter-spacing:.06em;color:var(--dim)}
+.tray{display:flex;flex-direction:column;gap:8px}
+.sample{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;padding:10px;border:1px solid var(--line);cursor:grab;transition:border-color .15s;user-select:none}
+.sample:hover{border-color:var(--line2)}.sample.used{border-color:var(--ink)}.sample:active{cursor:grabbing}
+.sample img{width:48px;height:36px;object-fit:cover}
+.sample .ico{width:48px;height:36px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--dim);font-size:10px}
+.sample b{font-weight:500;font-size:14px;display:block}.sample em{font-style:normal;color:var(--faint);font-size:11px}
+.slot{border:1px dashed var(--line2);padding:16px;text-align:center;color:var(--faint);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:border-color .2s}
+.slot.over{border-color:var(--ink);color:var(--ink)}.slot.full{border-style:solid;color:var(--ink);text-transform:none;letter-spacing:0;font-size:13px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+.step{cursor:pointer;padding:12px;background:var(--bg);opacity:.3;transition:opacity .3s}
+.step.lit{opacity:.75}.step.sel{opacity:1;box-shadow:inset 0 -1px 0 var(--ink)}
+.step b{display:block;font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;color:var(--dim)}
+.explain{min-height:70px;margin-bottom:20px;color:var(--dim);font-size:15px}
+.explain b{color:var(--ink);font-weight:500}
+.bars .bar{display:grid;grid-template-columns:70px 1fr 52px;gap:12px;align-items:center;margin:9px 0;font-size:12px}
+.track{position:relative;height:6px;background:#1a1a1a}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.thr{position:absolute;top:-5px;bottom:-5px;width:1px;background:var(--dim)}
+.thr::after{content:attr(data-l);position:absolute;top:-18px;left:-50px;width:100px;text-align:center;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+canvas{max-width:100%}
+.flickwrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0 12px}
+.flick{height:170px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;font-weight:400;letter-spacing:.3em;cursor:crosshair;user-select:none;background:var(--bg);position:relative}
+.flick .hz{font-size:11px;letter-spacing:.1em;color:var(--dim);margin-top:8px}
+.flick.gaze::after{content:"";position:absolute;inset:10px;border:1px solid var(--dim)}
+.actionbox{border:1px solid var(--line);padding:20px 24px;font-size:17px}
+.segs{display:flex;gap:1px;background:var(--line);border:1px solid var(--line)}
+.seg{flex:1;padding:10px 6px;text-align:center;font-size:11px;background:var(--bg);color:var(--faint)}
+.seg.c{color:var(--ok)}.seg.d{color:var(--bad)}.seg.n{color:var(--ink)}.seg.cur{box-shadow:inset 0 -1px 0 var(--ink);color:var(--ink)}
+.chain{display:flex;gap:28px;overflow-x:auto;padding:4px 2px 18px}
+.blk{min-width:230px;border:1px solid var(--line);padding:16px;font-size:11.5px;position:relative;animation:fade .4s}
+.blk.badblk{border-color:var(--bad)}
+.blk h4{margin:0 0 10px;font-size:10.5px;font-weight:500;letter-spacing:.18em}.blk .k{color:var(--faint)}.blk .h{color:var(--ink)}
+.blk::before{content:"";position:absolute;left:-29px;top:50%;width:28px;height:1px;background:var(--line2)}.blk:first-child::before{display:none}
+.attack{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.attack:last-child{border-bottom:1px solid var(--line)}
+.attack b{font-weight:400;font-size:16px}
+.attack .res{font-size:12px;min-width:260px;text-align:right;color:var(--dim)}
+.layers{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap}
+.layer{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.layer.pass{color:var(--dim)}.layer.stop{color:var(--bad)}.layer.stop::before{content:"■ "}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:80px;align-items:end;min-height:66vh;padding-bottom:20px}
+@media(max-width:860px){.hero{grid-template-columns:1fr;gap:40px}}
+.pipe{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.pipe div{display:grid;grid-template-columns:40px 1fr;padding:14px 0;border-bottom:1px solid var(--line);color:var(--dim);font-size:14px}
+.pipe i{font-style:normal;color:var(--faint);font-size:11px;letter-spacing:.1em;padding-top:2px}
+.pipe b{color:var(--ink);font-weight:500}
+.big{font-size:56px;font-weight:300;letter-spacing:-.03em;line-height:1.1}
+.legend{display:flex;gap:18px;font-size:11px;color:var(--dim);margin-top:12px}.legend i{display:inline-block;width:8px;height:8px;margin-right:6px}
+.warnbox{border-left:1px solid var(--ink);padding:4px 0 4px 16px;color:var(--dim);font-size:13px;margin-bottom:28px}
+.keep{color:var(--ink)}.gone{color:var(--faint);text-decoration:line-through}
+select{background:var(--bg);color:var(--ink);border:1px solid var(--line2);padding:6px 8px;font:inherit;font-size:12px}
+.sp{height:28px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">NEURO<b>LOCK</b></div>
+  <nav id="nav"></nav>
+  <div class="who"><span>Subject</span>
+    <button id="whoA" class="on" onclick="setWho('asha')">Asha</button>
+    <button id="whoB" onclick="setWho('bob')">Bob · impostor</button>
+  </div>
+</header>
+<main>
+
+<!-- 0 INTRO -->
+<section data-t="Start">
+  <div class="hero">
+    <div>
+      <div class="kicker">Proof of personhood · Field Station</div>
+      <h1>Prove you're one live human.<br>Without handing over your body.</h1>
+      <p class="lead">NeuroLock turns the veins inside your finger into a cryptographic key, checks that a live person is present, and reads consent from your brain's response to light. The registry stores no images and no templates: it holds commitments and hashes only.</p>
+      <p class="lead">You'll go through the station yourself. The capture hardware isn't connected yet, so you load <b>recorded</b> finger-vein scans (FV-USM) and EEG (PhysioNet) by dragging them in. Everything after that is the real pipeline and its real outputs. The parts we can't measure yet are marked <span class="sim">Simulated</span>.</p>
+      <div class="row"><button class="btn" onclick="go(1)">Begin</button>
+      <button class="btn ghost" onclick="go(9)">Attack lab</button></div>
+    </div>
+    <div class="pipe">
+      <div><i>01</i><span><b>Scan</b>: near-infrared light shows the veins under the skin</span></div>
+      <div><i>02</i><span><b>Extract</b>: the vein pattern becomes a binary map</span></div>
+      <div><i>03</i><span><b>Unique?</b>: one person, one identity (duplicates are blocked)</span></div>
+      <div><i>04</i><span><b>Alive?</b>: heartbeat in the finger, plus the brain following a flicker</span></div>
+      <div><i>05</i><span><b>Lock</b>: the veins become a key, and the key locks a secret</span></div>
+      <div><i>06</i><span><b>Ledger</b>: a public hash chain records commitments only</span></div>
+      <div><i>07</i><span><b>Consent</b>: say YES or NO by looking at it</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 SCAN -->
+<section data-t="Scan">
+  <div class="kicker">01 · Capture</div>
+  <h2>Load a finger scan</h2>
+  <p class="lead">At the station, near-infrared light shines through the finger. Haemoglobin absorbs it, so veins show up as dark lines. The scanner isn't connected yet, so <b>drag one of these recorded scans into the scanner</b>. They're real 850 nm images from the FV-USM database.</p>
+  <div class="grid g2">
+    <div class="card">
+      <div class="scanner" id="scanBox">
+        <img id="nirImg" alt="">
+        <div class="drophint" id="dropHint"><div class="plus">+</div>Drop a scan here<br><span style="letter-spacing:.05em;text-transform:none">or click one on the right</span></div>
+        <div class="sweep" id="sweep"></div>
+        <div class="hud mono" id="hud">Scanner idle</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Recorded scans <span class="real">FV-USM</span></h3>
+      <div class="tray" id="veinTray"></div>
+      <div class="mono note" id="scanStats" style="margin-top:22px;line-height:1.9"></div>
+      <div class="verdict ok" id="scanV"></div>
+      <div class="row" style="margin-top:22px"><button class="btn" onclick="go(2)">Extract veins</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 EXTRACT -->
+<section data-t="Extract">
+  <div class="kicker">02 · From image to pattern</div>
+  <h2>Five steps turn a blurry glow into a vein map</h2>
+  <p class="lead">Click a stage, or play them in order. These are the exact images our pipeline produces for this finger.</p>
+  <div class="row" style="margin-bottom:14px"><button class="btn" onclick="playExtract()">Play pipeline</button></div>
+  <div class="steps" id="exSteps"></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><canvas id="exCanvas" width="600" height="300" style="width:100%;background:#000"></canvas></div>
+    <div class="card"><h3 id="exTitle">—</h3><div class="explain" id="exText"></div>
+      <div class="row"><button class="btn" onclick="go(3)">Check uniqueness</button></div></div>
+  </div>
+</section>
+
+<!-- 3 DEDUP -->
+<section data-t="Unique">
+  <div class="kicker">03 · One human, one identity</div>
+  <h2>Has this finger enrolled before?</h2>
+  <p class="lead">Before issuing an identity, the station compares the new veins against everyone already enrolled. A score above the duplicate line means "you're already in here". This blocks Sybil attacks, where one person makes many accounts.</p>
+  <div class="grid g2">
+    <div class="card bars" id="dedupBars"></div>
+    <div class="card">
+      <h3>Registry search <span class="real">REAL SCORES</span></h3>
+      <p class="note">Fused Gabor + max-curvature score: 2 fingers, 6 images each, z-scored against impostor statistics. Duplicate line = <b class="mono" id="dThr"></b>, chosen on held-out people.</p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" onclick="runDedup(false)">Enrol (first visit)</button>
+        <button class="btn red" onclick="runDedup(true)">Asha tries to enrol a 2nd identity</button>
+      </div>
+      <div class="verdict" id="dedupV"></div>
+      <p class="note" style="margin-top:14px">Measured on the test half: 0 false duplicates, 98% of repeat enrolments caught. Caveat: 2 fingers is safe for about 1–10k people, not for a global registry.</p>
+      <div class="row" style="margin-top:8px"><button class="btn" onclick="go(4)">Liveness</button></div>
+    </div>
+  </div>
+  <h2 style="margin-top:30px;font-size:22px">How two vein maps are compared</h2>
+  <p class="lead">The probe is slid over the template (±15 rows, ±40 columns) to find the best overlap. Black = vein in both, blue = only in the enrolment scan, red = only in today's scan. Visit 2 was about two weeks after visit 1.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Asha (visit 2) vs Asha's template <span class="real">REAL</span></h3><img class="px" id="ovA" style="background:#fafafa"><p class="note mono" id="ovAt"></p></div>
+    <div class="card"><h3>Bob vs Asha's template <span class="real">REAL</span></h3><img class="px" id="ovB" style="background:#fafafa"><p class="note mono" id="ovBt"></p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>Every pair of 30 test people: same person vs different person <span class="real">REAL</span></h3>
+    <canvas id="distCv" width="1100" height="220" style="width:100%"></canvas>
+    <div class="legend"><span><i style="background:#5cb88a"></i>same person, 2 weeks apart (<span id="nG"></span>)</span><span><i style="background:#e5534b"></i>different people (<span id="nI"></span>)</span><span><i style="background:#8c8c8c"></i>verify threshold</span></div></div>
+</section>
+
+<!-- 4 PULSE -->
+<section data-t="Pulse">
+  <div class="kicker">04a · Liveness · Heartbeat</div>
+  <h2>A photo has no heartbeat</h2>
+  <p class="lead">Each heartbeat pushes blood into the fingertip, so the light coming through it dims slightly, about 70 times a minute. The station looks for that rhythm in a short video of the finger. We have no recorded NIR finger videos yet, so these two clips are <b>synthetic</b>. The check that runs on them is our real <span class="mono">check_pulse()</span>.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Brightness through the finger <span class="sim">Simulated input</span></h3>
+      <canvas id="pulseCv" width="560" height="170" style="width:100%"></canvas>
+      <canvas id="specCv" width="560" height="110" style="width:100%;margin-top:10px"></canvas>
+      <div class="sp"></div>
+      <div class="slot" id="pulseSlot">Drop a finger video here</div>
+      <div class="tray" id="pulseTray" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <h3>Heart rate</h3><div class="big mono" id="bpm">—</div>
+      <div class="sp"></div>
+      <h3>Pulse SNR · needs ≥ <span id="snrThr"></span> dB</h3><div class="big mono" id="snr" style="font-size:36px">—</div>
+      <div class="verdict" id="pulseV"></div>
+      <div class="row" style="margin-top:28px"><button class="btn" onclick="go(5)">Brain response</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 SSVEP liveness -->
+<section data-t="Brain">
+  <div class="kicker">04b · Liveness · Brain response</div>
+  <h2>Look at the flicker. Your visual cortex echoes it.</h2>
+  <p class="lead">When you look at a light flickering at f Hz, the back of your brain oscillates at f, 2f and 3f. That's SSVEP. The server picks a random sequence of frequencies. A live person watching produces EEG that follows the sequence, and a recording made earlier can't, because the sequence didn't exist yet.</p>
+  <div class="warnbox">Photosensitivity: this step flickers at 6–15 Hz. <label><input type="checkbox" id="calm"> Reduce flicker</label></div>
+  <div class="grid g2">
+    <div class="card" style="text-align:center">
+      <div class="slot" id="eegSlot1">Drop an EEG recording here</div>
+      <div class="tray" id="eegTray1" style="margin:10px 0 18px"></div>
+      <div class="note">Keep your mouse on the target. It stands in for where you're looking.</div>
+      <div class="flick c" id="liveTarget" style="margin:14px auto;width:70%">● LOOK HERE<div class="hz" id="liveHz">—</div></div>
+      <div class="segs" id="liveSegs"></div>
+      <div class="row" style="justify-content:center;margin-top:12px">
+        <button class="btn" onclick="runLiveness(false)">Start challenge</button>
+        <button class="btn red" onclick="runLiveness(true)">Attack: replay old EEG</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Occipital EEG (Oz) <span class="real">REAL EEG</span> + <span class="sim">SIMULATED SSVEP</span></h3>
+      <canvas id="eegCv" width="560" height="120" style="width:100%"></canvas>
+      <h3 style="margin-top:8px">Detector: CCA correlation per frequency</h3>
+      <canvas id="rhoCv" width="560" height="170" style="width:100%"></canvas>
+      <div class="verdict" id="liveV"></div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:20px;max-width:900px">The EEG background is Asha's real resting EEG (PhysioNet, 8 occipital channels). We don't have an SSVEP dataset, so the flicker response is added on top with the same <span class="mono">simulate_response()</span> used in our evaluation. The detector is the real CCA code, and the correlations shown are what it produced. Your mouse picks which precomputed response you get.</p>
+  <div class="row"><button class="btn" onclick="go(6)">Derive the key</button></div>
+</section>
+
+<!-- 6 LOCK -->
+<section data-t="Key">
+  <div class="kicker">05 · Key derivation</div>
+  <h2>A secret that only your finger can unlock</h2>
+  <p class="lead">The vein map becomes a 1530-bit code. We don't store it. We store it XORed with a random error-correcting codeword, which looks like noise. On a later visit, a fresh scan is never identical, so some bits flip. The BCH code fixes up to <b id="tT"></b> flips per 255-bit block. Your finger lands close enough to fix. Someone else's lands about 30% away and doesn't.</p>
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn" onclick="lockAnim('enrol')">Enrol · make helper data</button>
+    <button class="btn" onclick="lockAnim('probe')">Return visit · unlock</button>
+    <span class="note">finger: <select id="lockF" onchange="lockAnim('probe')"></select></span>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3 id="bitTitle">Code bits</h3>
+      <canvas id="bitCv" width="765" height="186" style="width:100%;image-rendering:pixelated;background:#000"></canvas>
+      <div class="legend"><span><i style="background:#ededed"></i>1 bit</span><span><i style="background:#161616"></i>0 bit</span><span><i style="background:#e5534b"></i>flipped since enrolment</span></div>
+      <h3 style="margin-top:14px">Errors per block vs what BCH(255, t=<span id="tT2"></span>) can fix</h3>
+      <div class="bars" id="blkBars"></div>
+    </div>
+    <div class="card">
+      <h3>What happens to the secret</h3>
+      <div class="mono note" id="lockLog" style="line-height:1.9;min-height:200px"></div>
+      <div class="verdict" id="lockV"></div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:14px"><button class="btn" onclick="go(7)">Ledger</button></div>
+</section>
+
+<!-- 7 LEDGER -->
+<section data-t="Ledger">
+  <div class="kicker">06 · Ledger</div>
+  <h2>The ledger only ever sees hashes</h2>
+  <p class="lead">Each record carries the SHA-256 of the one before it, so editing history breaks every later link. These hashes are computed live in your browser. Built for the Logos LEZ testnet (registry program written and tested; deploy waiting on the testnet, which halted).</p>
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn" onclick="ledgerAdd('register')">Register Asha's commitment</button>
+    <button class="btn" onclick="ledgerAdd('delegate')">Delegate a voting agent</button>
+    <button class="btn" onclick="ledgerAdd('revoke')">Revoke agent</button>
+    <button class="btn red" onclick="tamper()">Tamper with a record</button>
+    <button class="btn ghost" onclick="verifyChain()">Verify chain</button>
+  </div>
+  <div class="chain" id="chain"></div>
+  <div class="verdict" id="ledgerV"></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Stored on the public ledger</h3><div class="mono note" style="line-height:2">
+      <div class="keep">✓ commitment = H("commit", S)</div><div class="keep">✓ identity public key</div><div class="keep">✓ station signature, timestamp</div><div class="keep">✓ delegations / revocations</div></div></div>
+    <div class="card"><h3>Never stored anywhere</h3><div class="mono note" style="line-height:2">
+      <div class="gone">vein images</div><div class="gone">vein templates (commitment mode)</div><div class="gone">EEG recordings</div><div class="gone">the secret S, or the key</div></div></div>
+  </div>
+  <div class="row" style="margin-top:14px"><button class="btn" onclick="go(8)">Consent</button></div>
+</section>
+
+<!-- 8 CONSENT -->
+<section data-t="Consent">
+  <div class="kicker">07 · Consent</div>
+  <h2>Say yes or no by looking</h2>
+  <p class="lead">For high-stakes actions, CONFIRM and DENY both flicker. Every 1.5 s each one jumps to a new random frequency. Your EEG follows whichever one you're looking at, so the CONFIRM sequence is tied to this exact action and this one-time code. Coercing a click doesn't help; you have to look at it.</p>
+  <div class="actionbox mono">Action: <span id="actText">transfer 50 FS tokens to field-station-vote</span><div class="note" id="actHash"></div></div>
+  <div class="grid g2" style="margin-top:28px"><div class="card"><div class="slot" id="eegSlot2">Drop an EEG recording here</div></div><div class="card"><div class="tray" id="eegTray2"></div></div></div>
+  <div class="flickwrap">
+    <div class="flick c" id="btnC">CONFIRM<div class="hz" id="hzC">—</div></div>
+    <div class="flick d" id="btnD">DENY<div class="hz" id="hzD">—</div></div>
+  </div>
+  <div class="segs" id="conSegs"></div>
+  <div class="row" style="margin-top:12px">
+    <button class="btn" onclick="runConsent(false)">Start consent challenge</button>
+    <button class="btn red" onclick="runConsent(true)">Attack: replay Asha's earlier CONFIRM</button>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><canvas id="rhoCv2" width="560" height="170" style="width:100%"></canvas></div>
+    <div class="card"><div class="verdict" id="conV"></div><div class="mono note" id="conLog" style="line-height:1.8"></div></div>
+  </div>
+  <div class="row" style="margin-top:14px"><button class="btn" onclick="go(9)">Attack lab</button></div>
+</section>
+
+<!-- 9 ATTACK LAB -->
+<section data-t="Attack">
+  <div class="kicker">08 · Red team</div>
+  <h2>Try to break it</h2>
+  <p class="lead">Each attack goes through every layer. You'll see which layer stops it. All results come from the real pipeline on the test half.</p>
+  <div id="attacks"></div>
+  <div class="grid g3" style="margin-top:20px">
+    <div class="card"><div class="note">Vein match, cross-visit EER</div><div class="big">0.4%</div><small>2 fingers, test half, FV-USM</small></div>
+    <div class="card"><div class="note">Full pipeline false accepts</div><div class="big">1 / 2970</div><small>vein + pulse + SSVEP, 55 test people</small></div>
+    <div class="card"><div class="note">Duplicate enrolments caught</div><div class="big">98%</div><small>0 false duplicates</small></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h3>Where we are, honestly</h3><p class="note">
+    Real: vein pipeline, matching, fuzzy commitment, dedup, ledger logic (Rust registry program, 14/14 tests). Simulated: SSVEP responses and finger pulse (no recorded datasets yet). Not built: NIR capture hardware. Known limit: anyone who controls the capture software can synthesise a pulse and an SSVEP. Stopping that needs trusted sensor hardware.</p></div>
+</section>
+
+</main>
+<script src="data.js"></script>
+<script>
+const D = window.NL, Pm = D.params;
+const $ = id => document.getElementById(id);
+let WHO = 'asha', CUR = 0;
+const secs = [...document.querySelectorAll('section')];
+const done = new Set();
+secs.forEach((s, i) => { const b = document.createElement('button'); b.textContent = s.dataset.t; b.onclick = () => go(i); $('nav').appendChild(b); });
+function go(i) { stopFlicker(); secs.forEach((s, k) => s.classList.toggle('on', k === i)); [...$('nav').children].forEach((b, k) => { b.classList.toggle('on', k === i); b.classList.toggle('done', done.has(k)); }); CUR = i; window.scrollTo({ top: 0, behavior: 'smooth' }); if (i === 2) showStage(0); if (i === 3) drawDedup(null); if (i === 6) lockAnim('enrol'); }
+function mark(i) { done.add(i); }
+function setWho(w) { setWhoQuiet(w); resetScan(); }
+function verdict(el, cls, html) { el.className = 'verdict show ' + cls; el.innerHTML = html; }
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+async function sha(s) { return hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s))); }
+const rnd = n => hex(crypto.getRandomValues(new Uint8Array(n)));
+function img(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
+function unpack(arr, L) { const o = new Uint8Array(L); for (let i = 0; i < L; i++) o[i] = (arr[i >> 3] >> (7 - (i & 7))) & 1; return o; }
+
+/* ---------- drag & drop samples ---------- */
+function makeSample(tray, item, onLoad) {
+  const d = document.createElement('div'); d.className = 'sample'; d.draggable = true;
+  d.innerHTML = `${item.thumb ? `<img src="${item.thumb}">` : `<div class="ico mono">${item.ico}</div>`}<div><b>${item.title}</b><em class="mono">${item.file}</em></div>`;
+  d.ondragstart = e => { e.dataTransfer.setData('text/plain', item.key); window._drag = { item, onLoad, el: d }; };
+  d.onclick = () => { [...tray.children].forEach(c => c.classList.remove('used')); d.classList.add('used'); onLoad(item); };
+  tray.appendChild(d); return d;
+}
+function dropZone(el, accept) {
+  el.ondragover = e => { e.preventDefault(); el.classList.add('over'); };
+  el.ondragleave = () => el.classList.remove('over');
+  el.ondrop = e => { e.preventDefault(); el.classList.remove('over'); const g = window._drag; if (!g || !accept(g.item)) return;
+    [...g.el.parentNode.children].forEach(c => c.classList.remove('used')); g.el.classList.add('used'); g.onLoad(g.item); };
+}
+
+/* ---------- 1 SCAN ---------- */
+let scanned = 'enrol';
+const VEINS = [
+  { key: 'a1', kind: 'vein', who: 'asha', visit: 'enrol', title: 'Asha · finger 3 · visit 1', file: 'FV-USM 1st_session/019_3/01.jpg', thumb: D.asha.s1.raw },
+  { key: 'a2', kind: 'vein', who: 'asha', visit: 'return', title: 'Asha · finger 3 · visit 2', file: 'FV-USM 2nd_session/019_3/01.jpg', thumb: D.asha.s2.raw },
+  { key: 'b2', kind: 'vein', who: 'bob', visit: 'return', title: 'Bob · finger 3 · visit 2', file: 'FV-USM 2nd_session/096_3/01.jpg', thumb: D.bob.s2.raw }];
+VEINS.forEach(v => makeSample($('veinTray'), v, loadScan));
+dropZone($('scanBox'), it => it.kind === 'vein');
+function scanData() { return WHO === 'asha' ? (scanned === 'enrol' ? D.asha.s1 : D.asha.s2) : D.bob.s2; }
+function setWhoQuiet(w) { WHO = w; $('whoA').classList.toggle('on', w === 'asha'); $('whoB').classList.toggle('on', w === 'bob'); }
+function resetScan() { $('nirImg').style.opacity = 0; $('dropHint').style.display = ''; $('scanV').className = 'verdict'; $('scanStats').textContent = ''; $('hud').textContent = 'Scanner idle'; [...$('veinTray').children].forEach(c => c.classList.remove('used')); }
+async function loadScan(it) {
+  setWhoQuiet(it.who); scanned = it.visit; const s = scanData();
+  $('dropHint').style.display = 'none'; $('nirImg').style.opacity = 0;
+  $('sweep').classList.remove('go'); void $('sweep').offsetWidth; $('sweep').classList.add('go');
+  $('hud').textContent = 'Reading recorded NIR frame';
+  await sleep(3200);
+  $('nirImg').src = s.raw; $('nirImg').style.opacity = 1; $('hud').textContent = it.file;
+  $('scanStats').innerHTML = `subject&nbsp;&nbsp; ${it.who === 'asha' ? 'Asha' : 'Bob'} · FV-USM person ${(it.who === 'asha' ? D.asha.id : D.bob.id)[0]}<br>finger&nbsp;&nbsp;&nbsp; slot ${Pm.fingers[0]} · ${it.visit === 'enrol' ? 'visit 1 · enrolment' : 'visit 2 · ~2 weeks later'}<br>image&nbsp;&nbsp;&nbsp;&nbsp; 640 × 480 · 850 nm NIR · grayscale`;
+  verdict($('scanV'), 'ok', 'Scan loaded <span>next: extract the veins</span>'); mark(1);
+}
+/* ---------- 2 EXTRACT ---------- */
+const STAGES = [
+  ['Raw NIR', 'raw', '<b>Raw near-infrared image.</b> Light passes through the finger; veins absorb it. The pattern is faint, uneven and slightly rotated.'],
+  ['Find finger', 'edges', '<b>Finger edges + fingertip.</b> We locate both edges row by row, fit straight lines and find the tip, so every scan is cut from the same place on the finger. (A fix here on 28 Oct halved our error rate.)'],
+  ['Straighten', 'roi', '<b>Region of interest.</b> The finger is resampled into a fixed 100×300 strip between the edges. Rotation and finger width are now gone.'],
+  ['Enhance', 'enh', '<b>CLAHE contrast.</b> Local histogram equalisation brings out the vessels.'],
+  ['Vein map', 'maxcurv', '<b>Maximum-curvature extraction.</b> Veins are valleys in the brightness profile; we keep points of strongest curvature. A Gabor filter bank gives a second map, and the two are fused when matching.']];
+STAGES.forEach((st, i) => { const d = document.createElement('div'); d.className = 'step'; d.innerHTML = `<b>${i + 1}. ${st[0]}</b><img class="px" id="th${i}">`; d.onclick = () => showStage(i); $('exSteps').appendChild(d); });
+async function showStage(i) {
+  const s = scanData(); const cv = $('exCanvas'), g = cv.getContext('2d');
+  [...$('exSteps').children].forEach((d, k) => { d.classList.toggle('sel', k === i); if (k <= i) d.classList.add('lit'); });
+  STAGES.forEach((st, k) => { $('th' + k).src = st[1] === 'edges' ? s.raw : s[st[1]]; });
+  $('exTitle').textContent = STAGES[i][0]; $('exText').innerHTML = STAGES[i][2];
+  g.fillStyle = '#000'; g.fillRect(0, 0, cv.width, cv.height);
+  if (i <= 1) {
+    const im = await img(s.raw); const sc = cv.height / s.rawH, w = s.rawW * sc, ox = (cv.width - w) / 2;
+    g.drawImage(im, ox, 0, w, cv.height);
+    if (i === 1) {
+      g.lineWidth = 2;
+      for (const [k, col] of [[1, '#ededed'], [2, '#ededed']]) { g.strokeStyle = col; g.beginPath(); s.edges.forEach((e, j) => { const x = ox + e[k] * sc, y = e[0] * sc; j ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); }
+      g.strokeStyle = '#8c8c8c'; g.setLineDash([6, 4]);
+      [s.top, s.bottom].forEach(y => { g.beginPath(); g.moveTo(ox, y * sc); g.lineTo(ox + w, y * sc); g.stroke(); });
+      g.setLineDash([]); g.fillStyle = '#e5534b'; g.beginPath(); g.arc(cv.width / 2, s.tip * sc, 5, 0, 7); g.fill();
+    }
+  } else {
+    const im = await img(s[STAGES[i][1]]); g.imageSmoothingEnabled = false; g.drawImage(im, 0, 0, cv.width, cv.height);
+  }
+  if (i === 4) mark(2);
+}
+async function playExtract() { for (let i = 0; i < 5; i++) { await showStage(i); await sleep(1700); } }
+
+/* ---------- 3 DEDUP ---------- */
+const DMAX = 16;
+$('dThr').textContent = Pm.thr_dedup.toFixed(2);
+$('ovA').src = D.match.ovA; $('ovB').src = D.match.ovB;
+$('ovAt').textContent = `single-image overlap ${D.match.diceA.toFixed(3)} · person score (2 fingers, fused) ${D.match.asha.toFixed(2)}  → MATCH`;
+$('ovBt').textContent = `single-image overlap ${D.match.diceB.toFixed(3)} · person score ${D.match.bob.toFixed(2)}  → no match (threshold ${Pm.thr_verify.toFixed(2)})`;
+function drawDist() {
+  const cv = $('distCv'), g = cv.getContext('2d'), W = cv.width, H = cv.height, lo = -4, hi = 24, nb = 70, bw = (hi - lo) / nb;
+  const hist = a => { const h = new Array(nb).fill(0); a.forEach(v => { const k = Math.max(0, Math.min(nb - 1, Math.floor((v - lo) / bw))); h[k]++; }); return h.map(c => c / a.length); };
+  const hg = hist(D.dist.gen), hI = hist(D.dist.imp), mx = Math.max(...hg, ...hI), X = v => (v - lo) / (hi - lo) * W;
+  g.clearRect(0, 0, W, H);
+  [[hI, '#e5534b'], [hg, '#5cb88a']].forEach(([h, c]) => { g.fillStyle = c; h.forEach((p, k) => { const hh = p / mx * (H - 40); g.fillRect(X(lo + k * bw) + 1, H - 20 - hh, W / nb - 2, hh); }); });
+  g.strokeStyle = '#8c8c8c'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(Pm.thr_verify), 10); g.lineTo(X(Pm.thr_verify), H - 20); g.stroke();
+  g.font = '11px Helvetica'; g.fillStyle = '#666666'; for (let v = 0; v <= 24; v += 4) g.fillText(v, X(v) - 4, H - 4);
+  [['Asha', D.match.asha, '#5cb88a'], ['Bob', D.match.bob, '#e5534b']].forEach(([n, v, c]) => { g.fillStyle = c; g.beginPath(); g.moveTo(X(v), 26); g.lineTo(X(v) - 7, 12); g.lineTo(X(v) + 7, 12); g.fill(); g.fillText(n, X(v) - 14, 10 + 0); });
+  $('nG').textContent = D.dist.gen.length + ' pairs'; $('nI').textContent = D.dist.imp.length + ' pairs';
+}
+drawDist();
+function drawDedup(scores, names) {
+  names = names || D.dedup.names.slice(1);
+  $('dedupBars').innerHTML = '<h3>Enrolled people</h3>' + names.map((n, i) => `<div class="bar"><span class="mono">${n}</span><div class="track"><div class="fill" id="df${i}"></div>${i === 0 ? `<div class="thr" style="left:${Pm.thr_dedup / DMAX * 100}%" data-l="duplicate line"></div>` : `<div class="thr" style="left:${Pm.thr_dedup / DMAX * 100}%"></div>`}</div><span class="mono" id="dv${i}">·</span></div>`).join('');
+  $('dedupV').className = 'verdict';
+}
+async function runDedup(second) {
+  let names, sc;
+  if (second) { names = D.dedup.names; sc = D.dedup.asha2; }
+  else if (WHO === 'bob') { names = D.dedup.names; sc = D.dedup.bob; }
+  else { names = D.dedup.names.slice(1); sc = D.dedup.asha2.slice(1); }
+  drawDedup(null, names); await sleep(60);
+  let best = -99, bi = 0;
+  for (let i = 0; i < sc.length; i++) {
+    const v = sc[i], f = $('df' + i); f.style.width = Math.max(1, Math.min(100, (v + 2) / (DMAX + 2) * 100)) + '%';
+    f.style.background = v >= Pm.thr_dedup ? 'var(--bad)' : 'var(--acc)'; $('dv' + i).textContent = v.toFixed(2);
+    if (v > best) { best = v; bi = i; } await sleep(140);
+  }
+  if (best >= Pm.thr_dedup) verdict($('dedupV'), 'bad', `DUPLICATE: matches enrolled identity "${names[bi]}" (score ${best.toFixed(2)}) <span>Second identity refused.</span>`);
+  else verdict($('dedupV'), 'ok', `New human: best match ${best.toFixed(2)} is below ${Pm.thr_dedup.toFixed(2)} <span>among ${sc.length} enrolled people</span>`);
+  mark(3);
+}
+
+/* ---------- 4 PULSE ---------- */
+$('snrThr').textContent = Pm.pulse_snr.toFixed(1);
+function plotTrace(cv, ys, col) {
+  const g = cv.getContext('2d'), W = cv.width, H = cv.height; g.clearRect(0, 0, W, H);
+  if (ys.length < 2) return; let mn = Math.min(...ys), mx = Math.max(...ys); if (mx - mn < 1e-9) mx = mn + 1;
+  g.strokeStyle = col; g.lineWidth = 2; g.beginPath();
+  ys.forEach((y, i) => { const X = i / (ys.length - 1) * W, Y = H - 8 - (y - mn) / (mx - mn) * (H - 16); i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); g.stroke();
+}
+function detrend(y, w = 15) { return y.map((v, i) => { let s = 0, c = 0; for (let j = Math.max(0, i - w); j < Math.min(y.length, i + w); j++) { s += y[j]; c++; } return v - s / c; }); }
+function analyse(sig, fps) {
+  const n = sig.length; const m = sig.reduce((a, b) => a + b, 0) / n;
+  // detrend (moving average ~1 s) then DFT in 0.7-3.5 Hz
+  const w = Math.round(fps), x = sig.map((v, i) => { let s = 0, c = 0; for (let j = Math.max(0, i - w); j < Math.min(n, i + w); j++) { s += sig[j]; c++; } return v - s / c; });
+  const fs = [], ps = []; for (let f = 0.5; f <= 4.0; f += 0.02) { let re = 0, im = 0; for (let i = 0; i < n; i++) { const a = 2 * Math.PI * f * i / fps; re += x[i] * Math.cos(a); im += x[i] * Math.sin(a); } fs.push(f); ps.push(re * re + im * im); }
+  let k = 0; fs.forEach((f, i) => { if (f >= 0.7 && f <= 3.5 && ps[i] > ps[k]) k = i; });
+  const band = ps.filter((p, i) => fs[i] >= 0.7 && fs[i] <= 3.5 && Math.abs(fs[i] - fs[k]) > 0.15 && Math.abs(fs[i] - 2 * fs[k]) > 0.15);
+  const noise = band.reduce((a, b) => a + b, 0) / Math.max(1, band.length), pk = ps.slice(Math.max(0, k - 3), k + 4).reduce((a, b) => a + b, 0) / 7;
+  return { bpm: fs[k] * 60, snr: 10 * Math.log10(pk / (noise + 1e-12)), fs, ps, x };
+}
+function plotSpec(r) { const cv = $('specCv'), g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height); const mx = Math.max(...r.ps); g.fillStyle = '#8c8c8c'; r.ps.forEach((p, i) => { const h = p / mx * (cv.height - 18); g.fillRect(i / r.ps.length * cv.width, cv.height - 14 - h, cv.width / r.ps.length, h); }); g.fillStyle = '#666666'; g.font = '11px monospace'; [1, 2, 3, 4].forEach(f => g.fillText(f * 60 + ' bpm', (f - 0.5) / 3.5 * cv.width - 16, cv.height - 2)); }
+function pulseVerdict(r, label) {
+  $('bpm').textContent = r.bpm.toFixed(0); $('snr').textContent = r.snr.toFixed(1) + ' dB';
+  if (r.snr >= Pm.pulse_snr) verdict($('pulseV'), 'ok', `Heartbeat ${r.bpm.toFixed(0)} bpm <span>${label}</span>`);
+  else verdict($('pulseV'), 'bad', `No heartbeat <span>SNR ${r.snr.toFixed(1)} dB &lt; ${Pm.pulse_snr.toFixed(1)}: ${label}</span>`);
+  mark(4);
+}
+function stopPulse() {}
+const PULSES = [
+  { key: 'pl', kind: 'pulse', v: 'live', title: 'Finger video · live finger', file: 'synthetic · 10 s · 30 fps · 72 bpm', ico: 'MP4' },
+  { key: 'pp', kind: 'pulse', v: 'photo', title: 'Finger video · printed photo', file: 'synthetic · still vein image + sensor noise', ico: 'MP4' }];
+PULSES.forEach(p => makeSample($('pulseTray'), p, it => { $('pulseSlot').className = 'slot full'; $('pulseSlot').textContent = it.title; simPulse(it.v); }));
+dropZone($('pulseSlot'), it => it.kind === 'pulse');
+async function simPulse(kind) {
+    const p = D.pulse[kind], tr = p.trace;
+  for (let i = 30; i <= tr.length; i += 6) { plotTrace($('pulseCv'), detrend(tr.slice(Math.max(0, i - 180), i)).slice(15, -15), kind === 'live' ? '#e5534b' : '#666666'); await sleep(40); }
+  const r = analyse(tr, 30); plotSpec(r);
+  pulseVerdict({ bpm: p.bpm, snr: p.snr }, kind === 'live' ? 'check_pulse() on the synthetic live-finger clip' : 'check_pulse(): a still image has no blood flow');
+}
+
+/* ---------- SSVEP shared ---------- */
+const FQ = Pm.freqs, SEG = Pm.seg_s * 1000, K = Pm.K;
+let flickers = [], flickRaf = null;
+function flicker(el, f) { flickers = flickers.filter(x => x.el !== el); if (f) flickers.push({ el, f }); if (!flickRaf) flickLoop(); }
+function flickLoop() { const t = performance.now() / 1000, calm = $('calm').checked; flickers.forEach(({ el, f }) => { const on = (t * f) % 1 < .5; el.style.background = on ? (calm ? '#3a3a3a' : '#ededed') : (calm ? '#141414' : '#0b0b0b'); el.style.color = on && !calm ? '#000' : ''; }); flickRaf = requestAnimationFrame(flickLoop); }
+function stopFlicker() { flickers.forEach(({ el }) => { el.style.background = ''; el.style.color = ''; }); flickers = []; if (flickRaf) cancelAnimationFrame(flickRaf); flickRaf = null; }
+let gaze = null;
+['liveTarget', 'btnC', 'btnD'].forEach(id => { const e = $(id); e.onmouseenter = () => { gaze = id; e.classList.add('gaze'); }; e.onmouseleave = () => { gaze = null; e.classList.remove('gaze'); }; });
+function pickFreqs(n, excl) { const out = []; for (let i = 0; i < n; i++) { let a; do { a = crypto.getRandomValues(new Uint8Array(1))[0] % FQ.length; } while (excl && a === excl[i]); out.push(a); } return out; }
+function drawRho(cv, rhos, hi) {
+  const g = cv.getContext('2d'), W = cv.width, H = cv.height; g.clearRect(0, 0, W, H); const bw = W / FQ.length;
+  const yv = r => H - 22 - r * (H - 34);
+  rhos.forEach((r, i) => { g.fillStyle = hi[i] || '#2a2a2a'; g.fillRect(i * bw + 8, yv(r), bw - 16, H - 22 - yv(r)); g.fillStyle = '#666666'; g.font = '11px monospace'; g.fillText(FQ[i].toFixed(1) + 'Hz', i * bw + 10, H - 6); g.fillStyle = '#ededed'; g.fillText(r.toFixed(2), i * bw + 12, yv(r) - 4); });
+  g.strokeStyle = '#8c8c8c'; g.setLineDash([5, 4]); g.beginPath(); g.moveTo(0, yv(Pm.rho_thr)); g.lineTo(W, yv(Pm.rho_thr)); g.stroke(); g.setLineDash([]);
+  g.fillStyle = '#0b0b0b'; g.fillRect(W - 96, yv(Pm.rho_thr) - 16, 96, 13); g.fillStyle = '#8c8c8c'; g.fillText('threshold ' + Pm.rho_thr.toFixed(2), W - 92, yv(Pm.rho_thr) - 5);
+}
+let segCounter = 0;
+function response(ti) { const row = D.ssvep.grid[(segCounter++) % D.ssvep.grid.length]; return row[ti]; }
+function classify(rhos) { let k = 0; rhos.forEach((r, i) => { if (r > rhos[k]) k = i; }); return { k, rho: rhos[k] }; }
+async function animEEG(oz) { const cv = $('eegCv'); for (let i = 10; i <= oz.length; i += 4) { if (CUR === 5) plotTrace(cv, oz.slice(0, i), '#ededed'); await sleep(SEG / oz.length * 4); } }
+let lastLive = null, lastConfirm = null, eegLoaded = false;
+const EEGS = [{ key: 'e1', kind: 'eeg', title: `Resting EEG · subject ${D.asha.id[1]} (Asha)`, file: 'PhysioNet EEGMMI · 160 Hz · 8 occipital channels', ico: 'EDF' }];
+function loadEEG(it) { eegLoaded = true; ['eegSlot1', 'eegSlot2'].forEach(id => { $(id).className = 'slot full'; $(id).textContent = it.title + ' · loaded'; }); }
+[1, 2].forEach(n => { EEGS.forEach(e => makeSample($('eegTray' + n), e, loadEEG)); dropZone($('eegSlot' + n), it => it.kind === 'eeg'); });
+
+/* ---------- 5 SSVEP liveness ---------- */
+async function runLiveness(replay, attempt = 1) {
+  if (!eegLoaded) return verdict($('liveV'), 'warn', 'No EEG loaded <span>drop a recording into the slot first</span>');
+  const seq = pickFreqs(K); const segs = $('liveSegs'); segs.innerHTML = seq.map((_, i) => `<div class="seg" id="ls${i}">seg ${i + 1}<br>—</div>`).join('');
+  $('liveV').className = 'verdict'; const ans = []; const recorded = [];
+  for (let i = 0; i < K; i++) {
+    const f = FQ[seq[i]]; $('liveHz').textContent = f.toFixed(2) + ' Hz'; flicker($('liveTarget'), f); $('ls' + i).classList.add('cur');
+    let on = 0, tot = 0; const t0 = performance.now(); const anim = sleep(SEG);
+    const iv = setInterval(() => { tot++; if (gaze === 'liveTarget') on++; }, 50);
+    await anim; clearInterval(iv);
+    let ti = replay ? (lastLive ? lastLive[i] : pickFreqs(1)[0]) : (on / Math.max(1, tot) > 0.6 ? seq[i] : FQ.length);
+    if (WHO === 'bob' && !replay) ti = on / Math.max(1, tot) > 0.6 ? seq[i] : FQ.length; // Bob is live too: liveness passes, identity fails elsewhere
+    recorded.push(ti === FQ.length ? seq[i] : ti);
+    const r = response(ti); animEEG(r.oz);
+    const c = classify(r.rhos); const hit = c.k === seq[i] && c.rho >= Pm.rho_thr;
+    drawRho($('rhoCv'), r.rhos, { [c.k]: hit ? '#5cb88a' : '#e5534b', ...(c.k !== seq[i] ? { [seq[i]]: '#ffffff44' } : {}) });
+    ans.push(hit); const el = $('ls' + i); el.classList.remove('cur'); el.classList.add(hit ? 'c' : 'n');
+    el.innerHTML = `${f.toFixed(1)} Hz<br>${hit ? 'followed' : (c.rho < Pm.rho_thr ? 'weak' : 'heard ' + FQ[c.k].toFixed(1))}`;
+  }
+  flicker($('liveTarget'), 0); stopFlicker(); $('liveHz').textContent = '—';
+  if (!replay) lastLive = recorded;
+  if (!ans.every(x => x) && !replay && attempt < 3) { verdict($('liveV'), 'warn', `Attempt ${attempt} of 3 missed a segment <span>issuing a fresh random challenge (the real station allows 3)</span>`); await sleep(1600); return runLiveness(false, attempt + 1); }
+  if (ans.every(x => x)) verdict($('liveV'), 'ok', `Live brain <span>EEG followed all 4 random frequencies${attempt > 1 ? ` (attempt ${attempt} of 3)` : ''}. The sequence was created seconds ago.</span>`);
+  else verdict($('liveV'), 'bad', `${replay ? 'Replay rejected: the old recording follows an old sequence' : 'Not followed'} <span>${ans.filter(x => x).length}/4 segments matched. ${replay ? '' : 'Keep the mouse on the target.'} Up to 3 fresh challenges are allowed.</span>`);
+  mark(5);
+}
+
+/* ---------- 6 LOCK ---------- */
+Pm.fingers.forEach((f, i) => { const o = document.createElement('option'); o.value = i; o.textContent = 'slot ' + f; $('lockF').appendChild(o); });
+$('lockF').value = 0; $('tT').textContent = D.commit[0].t; $('tT2').textContent = D.commit[0].t;
+let lockBusy = false;
+async function lockAnim(mode) {
+  if (lockBusy) return; lockBusy = true;
+  const C = D.commit[+$('lockF').value], L = C.L, n = C.n, nb = L / n;
+  const w = unpack(C.wbits, L), cv = $('bitCv'), g = cv.getContext('2d'), cell = 3;
+  cv.width = n * cell; cv.height = nb * (cell * 10 + 1);
+  const rowH = cell * 10;
+  const draw = (bits, err, upto) => { for (let b = 0; b < nb; b++) for (let i = 0; i < n; i++) { const j = b * n + i; if (j > upto) continue; g.fillStyle = err && err[j] ? '#e5534b' : (bits[j] ? '#ededed' : '#161616'); g.fillRect(i * cell, b * (rowH + 1), cell, rowH); } };
+  const log = $('lockLog'); log.innerHTML = ''; $('lockV').className = 'verdict'; const add = s => { log.innerHTML += s + '<br>'; };
+  $('blkBars').innerHTML = [...Array(nb)].map((_, b) => `<div class="bar"><span class="mono">block ${b + 1}</span><div class="track"><div class="fill" id="bk${b}"></div><div class="thr" style="left:${C.t / 90 * 100}%" ${b === 0 ? 'data-l="fixable (t=' + C.t + ')"' : ''}></div></div><span class="mono" id="bv${b}">·</span></div>`).join('');
+  g.fillStyle = '#000'; g.fillRect(0, 0, cv.width, cv.height);
+  if (mode === 'enrol') {
+    $('bitTitle').textContent = 'Visit 1: Asha\'s vein code w (most reliable 1530 of 3072 bits)';
+    for (let u = 0; u < L; u += 40) { draw(w, null, u); await sleep(8); }
+    add('vein map → aligned 32×96 grid → 3072 bits');
+    add('keep the 1536 most stable bits across 6 enrol images');
+    const k = rnd(Math.ceil(C.keybits / 8)); await sleep(500);
+    add(`random key k (${C.keybits} bits) → BCH codeword c`); await sleep(500);
+    const hb = new Uint8Array(L); crypto.getRandomValues(hb); for (let i = 0; i < L; i++) hb[i] &= 1;
+    $('bitTitle').textContent = 'Stored helper = c ⊕ w (looks like noise, reveals neither)';
+    for (let u = 0; u < L; u += 60) { draw(hb, null, u); await sleep(6); }
+    add('helper data = c ⊕ w  → stored (public)');
+    add(`hash(k) = ${C.keyhash.slice(0, 24)}…  → stored`); await sleep(400);
+    const S = rnd(32); add(`identity secret S = ${S.slice(0, 16)}…  (random, on device)`);
+    add('S wrapped with Argon2id(k) + AES-256-GCM');
+    add(`commitment = H("commit", S) = ${(await sha('commit' + S)).slice(0, 20)}…`);
+    verdict($('lockV'), 'ok', 'Locked <span>Vein template thrown away. Only helper data + wrapped S remain.</span>');
+    mark(6);
+  } else {
+    const P = WHO === 'asha' ? C.asha : C.bob, err = unpack(P.errbits, L);
+    $('bitTitle').textContent = `Visit 2: ${WHO === 'asha' ? 'Asha' : 'Bob'} scans finger slot ${C.finger}. Red = bits that differ from enrolment`;
+    draw(w, null, L); add(`fresh scan, probe image ${P.try} → code w′`); await sleep(600);
+    for (let u = 0; u < L; u += 30) { draw(w, err, u); await sleep(8); }
+    add(`bit error rate ${(P.ber * 100).toFixed(1)}%  (${err.reduce((a, b) => a + b, 0)} of ${L} flipped)`);
+    for (let b = 0; b < nb; b++) { const e = P.blocks[b], f = $('bk' + b); f.style.width = Math.min(100, e / 90 * 100) + '%'; f.style.background = e <= C.t ? 'var(--ok)' : 'var(--bad)'; $('bv' + b).textContent = e; await sleep(220); }
+    add('helper ⊕ w′ = c ⊕ (errors)  → BCH decode each block');
+    if (P.ok) {
+      add(`all blocks ≤ ${C.t} errors → codeword fixed → k recovered`); add('hash(k) matches stored hash ✓'); add('unwrap S → derive identity key → sign challenge');
+      verdict($('lockV'), 'ok', `Unlocked with finger slot ${C.finger} <span>The secret came back from the body alone. Nothing was stored that could rebuild the veins.</span>`);
+    } else {
+      const fix = WHO === 'asha' && C.finger === Pm.fingers[0];
+      add(`${P.blocks.filter(e => e > C.t).length} blocks exceed ${C.t} → decode fails`);
+      verdict($('lockV'), 'bad', fix ? `Finger slot ${C.finger} didn't open (real result: this scan drifted) <span>The station tries the second finger automatically. Switch to slot ${Pm.fingers[1]} ↑</span>`
+        : `Locked out <span>${WHO === 'bob' ? "Bob's veins are ~" + (P.ber * 100).toFixed(0) + "% different: far beyond what error correction can fix." : ''}</span>`);
+    }
+  }
+  lockBusy = false;
+}
+
+/* ---------- 7 LEDGER ---------- */
+let chain = [], agentActive = false;
+async function ledgerAdd(type) {
+  const prev = chain.length ? chain[chain.length - 1].hash : '0'.repeat(64);
+  let body;
+  if (type === 'register') body = { type: 'REGISTER', commitment: await sha('commit' + rnd(32)), id_pub: rnd(32), station_sig: rnd(32) + '…' };
+  else if (type === 'delegate') { if (!chain.some(b => b.body.type === 'REGISTER')) return verdict($('ledgerV'), 'warn', 'Register first'); body = { type: 'DELEGATE', app: 'fieldstation-vote', scope: 'vote', agent_pub: rnd(32), id_sig: rnd(32) + '…' }; agentActive = true; }
+  else { if (!agentActive) return verdict($('ledgerV'), 'warn', 'No active agent to revoke'); body = { type: 'REVOKE', delegation: chain.filter(b => b.body.type === 'DELEGATE').pop().hash.slice(0, 16), id_sig: rnd(32) + '…' }; agentActive = false; }
+  body.ts = new Date().toISOString().slice(11, 19);
+  const hash = await sha(prev + JSON.stringify(body)); chain.push({ prev, body, hash }); renderChain();
+  verdict($('ledgerV'), 'ok', `${body.type} appended <span>record hash ${hash.slice(0, 16)}…</span>`); mark(7);
+}
+function renderChain(bad) {
+  $('chain').innerHTML = chain.map((b, i) => `<div class="blk ${bad && bad.includes(i) ? 'badblk' : ''}"><h4>#${i} ${b.body.type}</h4>${Object.entries(b.body).filter(([k]) => k !== 'type').map(([k, v]) => `<div><span class="k">${k}:</span> <span class="mono">${String(v).slice(0, 22)}${String(v).length > 22 ? '…' : ''}</span></div>`).join('')}<div style="margin-top:6px"><span class="k">prev:</span> <span class="mono h">${b.prev.slice(0, 16)}…</span></div><div><span class="k">hash:</span> <span class="mono h">${b.hash.slice(0, 16)}…</span></div></div>`).join('');
+}
+function tamper() { if (chain.length < 2) return verdict($('ledgerV'), 'warn', 'Add at least two records first'); const b = chain[0]; b.body.commitment ? b.body.commitment = 'ffff' + b.body.commitment.slice(4) : b.body.ts = '00:00:00'; renderChain(); verdict($('ledgerV'), 'warn', 'Record #0 edited quietly <span>now press Verify chain</span>'); }
+async function verifyChain() {
+  const bad = []; let prev = '0'.repeat(64);
+  for (let i = 0; i < chain.length; i++) { const h = await sha(prev + JSON.stringify(chain[i].body)); if (h !== chain[i].hash || chain[i].prev !== prev) bad.push(i); prev = chain[i].hash; }
+  renderChain(bad);
+  if (bad.length) verdict($('ledgerV'), 'bad', `Chain broken at record #${bad[0]} <span>its hash no longer matches its contents: tampering detected</span>`);
+  else verdict($('ledgerV'), 'ok', `Chain valid <span>${chain.length} records, every link recomputed</span>`);
+}
+
+/* ---------- 8 CONSENT ---------- */
+sha($('actText').textContent).then(h => $('actHash').textContent = 'action hash ' + h.slice(0, 32) + '…');
+async function runConsent(replay, attempt = 1) {
+  if (!eegLoaded) return verdict($('conV'), 'warn', 'No EEG loaded <span>drop a recording into the slot above first</span>');
+  const cs = pickFreqs(K), ds = pickFreqs(K, cs); $('conSegs').innerHTML = cs.map((_, i) => `<div class="seg" id="cs${i}">seg ${i + 1}<br>—</div>`).join('');
+  $('conV').className = 'verdict'; const log = $('conLog'); log.innerHTML = `nonce ${rnd(8)} · CONFIRM seq [${cs.map(i => FQ[i].toFixed(1))}] · DENY seq [${ds.map(i => FQ[i].toFixed(1))}]<br>`;
+  const ans = [], rec = [];
+  for (let i = 0; i < K; i++) {
+    $('hzC').textContent = FQ[cs[i]].toFixed(2) + ' Hz'; $('hzD').textContent = FQ[ds[i]].toFixed(2) + ' Hz';
+    flicker($('btnC'), FQ[cs[i]]); flicker($('btnD'), FQ[ds[i]]); $('cs' + i).classList.add('cur');
+    const cnt = { btnC: 0, btnD: 0, none: 0 }; const iv = setInterval(() => cnt[gaze === 'btnC' || gaze === 'btnD' ? gaze : 'none']++, 50);
+    await sleep(SEG); clearInterval(iv);
+    const tot = cnt.btnC + cnt.btnD + cnt.none; const look = cnt.btnC / tot > .6 ? 'c' : cnt.btnD / tot > .6 ? 'd' : '-';
+    let ti = replay ? (lastConfirm ? lastConfirm[i] : pickFreqs(1)[0]) : look === 'c' ? cs[i] : look === 'd' ? ds[i] : FQ.length;
+    rec.push(ti);
+    const r = response(ti), c = classify(r.rhos);
+    const a = c.rho >= Pm.rho_thr && c.k === cs[i] ? 'c' : c.rho >= Pm.rho_thr && c.k === ds[i] ? 'd' : '-';
+    ans.push(a); drawRho($('rhoCv2'), r.rhos, { [cs[i]]: '#5cb88a', [ds[i]]: '#e5534b' });
+    const el = $('cs' + i); el.classList.remove('cur'); el.classList.add(a === 'c' ? 'c' : a === 'd' ? 'd' : 'n');
+    el.innerHTML = `${FQ[c.k].toFixed(1)} Hz ρ=${c.rho.toFixed(2)}<br>${a === 'c' ? 'CONFIRM' : a === 'd' ? 'DENY' : 'unclear'}`;
+  }
+  stopFlicker(); $('hzC').textContent = $('hzD').textContent = '—';
+  if (!replay && ans.every(a => a === 'c')) lastConfirm = rec;
+  const clear = ans.every(a => a === 'c') || ans.every(a => a === 'd');
+  if (!clear && !replay && attempt < 3) { verdict($('conV'), 'warn', `Attempt ${attempt} of 3 unclear <span>fresh challenge (an explicit DENY stops immediately)</span>`); await sleep(1600); return runConsent(false, attempt + 1); }
+  if (ans.every(a => a === 'c')) { const sig = rnd(32); log.innerHTML += `consent record {action_hash, nonce, decision: confirm}<br>signed with identity key: ${sig.slice(0, 32)}…`; verdict($('conV'), 'ok', 'CONSENT GIVEN <span>bound to this action and this nonce only</span>'); }
+  else if (ans.every(a => a === 'd')) verdict($('conV'), 'bad', 'DENIED by the user <span>action blocked, nothing signed</span>');
+  else verdict($('conV'), 'warn', `${replay ? 'Replay rejected' : '? No clear answer'} <span>segments: ${ans.join(' ')}. ${replay ? 'The old recording follows the old CONFIRM sequence, not this one.' : 'No consent, nothing signed.'}</span>`);
+  mark(8);
+}
+
+/* ---------- 9 ATTACK LAB ---------- */
+const LAYERS = ['dedup', 'vein', 'pulse', 'brain', 'consent', 'ledger'];
+const ATT = [
+  ['Bob claims to be Asha with his own finger', 'vein', `vein score ${D.match.bob.toFixed(2)} &lt; ${Pm.thr_verify.toFixed(2)}; commitment: ${D.commit[1].bob.blocks.join('/')} errors per block (limit ${D.commit[0].t})`],
+  ['Asha enrols a second identity', 'dedup', `matched her own record, score ${D.dedup.asha2[0].toFixed(2)} ≥ ${Pm.thr_dedup.toFixed(2)}`],
+  ['Printed photo of Asha\'s veins', 'pulse', `no heartbeat: SNR ${D.pulse.photo.snr.toFixed(1)} dB &lt; ${Pm.pulse_snr.toFixed(1)}`],
+  ['Replay Asha\'s EEG from yesterday', 'brain', 'recording follows an old frequency sequence; a fresh one fails on 3 tries'],
+  ['Coerce Asha: she looks at DENY', 'consent', 'EEG follows DENY: nothing signed'],
+  ['Replay Asha\'s CONFIRM for a different action', 'consent', 'CONFIRM sequence is bound to action hash + nonce'],
+  ['Revoked agent tries to vote', 'ledger', 'delegation revoked on chain'],
+  ['Edit the ledger to change a commitment', 'ledger', 'hash chain breaks at the edited record'],
+  ['Genuine Asha, return visit', null, `vein ${D.match.asha.toFixed(2)} ≥ ${Pm.thr_verify.toFixed(2)}; finger ${D.commit[1].finger} commitment opened; pulse; SSVEP followed`]];
+$('attacks').innerHTML = ATT.map((a, i) => `<div class="attack"><div><b>${a[0]}</b><div class="layers" id="al${i}">${LAYERS.map(l => `<span class="layer">${l}</span>`).join('')}</div></div><div class="row"><span class="res note" id="ar${i}"></span><button class="btn ${a[1] ? 'red' : ''}" onclick="attack(${i})">${a[1] ? 'Attack' : 'Run'}</button></div></div>`).join('');
+async function attack(i) {
+  const [, stop, why] = ATT[i], ls = [...$('al' + i).children]; ls.forEach(l => l.className = 'layer'); $('ar' + i).innerHTML = '';
+  for (let k = 0; k < LAYERS.length; k++) { await sleep(260); if (LAYERS[k] === stop) { ls[k].className = 'layer stop'; $('ar' + i).innerHTML = `<b style="color:var(--bad)">STOPPED by ${stop}</b><br>${why}`; return; } ls[k].className = 'layer pass'; }
+  $('ar' + i).innerHTML = `<b style="color:var(--ok)">ACCEPTED</b><br>${why}`;
+}
+go(+(location.hash.slice(1)) || 0);
+</script>
+</body>
+</html>

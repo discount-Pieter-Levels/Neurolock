@@ -1,0 +1,9 @@
+# Copy to logos_config.toml (git-ignored), or let `python logos/deploy_registry.py deploy` write it.
+# Testnet only: LGO has no value, the testnet can be reset at any time.
+sequencer = "https://testnet.lez.logos.co"
+program_id = "<base58 program address printed by deploy_registry.py>"
+wallet_ffi_lib = "~/neurolock_run/neurolock/logos_build/wallet-ffi/lib/libwallet_ffi.so"
+data_dir = "~/.neurolock_logos"             # wallet + testnet keys, outside the repo
+station_key_file = "~/.neurolock_logos/station.key"
+block_seconds = 30                          # used to turn a delegation TTL into an expiry block
+confirm_timeout_s = 240
